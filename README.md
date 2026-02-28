@@ -356,27 +356,35 @@ Dhall is a prerequisite. Updo can bootstrap itself as a makefile recipe in
 ## Bootstrap from Hackage
 
 ```make
+# include bootstrap/hackage.mk
 UPDO_VERSION ?= 1.0.0
-HACKAGE := http://hackage.haskell.org/package
-UPDO_URL := ${HACKAGE}/updo-${UPDO_VERSION}/updo-${UPDO_VERSION}.tar.gz
+UPDO_REPO_ROOT := http://hackage.haskell.org/package
+UPDO_ARCHIVE := ${UPDO_REPO_ROOT}/updo-${UPDO_VERSION}/updo-${UPDO_VERSION}.tar.gz
+UPDO_REF := ${UPDO_REPO_ROOT}/updo-${UPDO_VERSION}
 ```
 
 1. When opting for the scripts:
 
 ```make
+# include bootstrap/bootstrap.mk
 updo/Makefile:
+⇥ (info Referencing Updo at $(UPDO_HACKAGE_URL))
 ⇥ rm -rf updo
-⇥ curl -sSL ${UPDO_URL} | tar -xz
+⇥ curl -sSL ${UPDO_ARCHIVE} | tar -xz
 ⇥ mv updo-* updo
 ⇥ chmod +x $$(grep -RIl '^#!' updo)
 ```
+
+The above as a script is
+[project-bootstrap-hackage.sh](project-bootstrap-hackage.sh).
 
 2. When opting to install the included executables:
 
 ```make
 updo/Makefile:
+⇥ (info Referencing Updo at $(UPDO_HACKAGE_URL))
 ⇥ rm -rf updo
-⇥ curl -sSL ${UPDO_URL} | tar -xz
+⇥ curl -sSL ${UPDO_ARCHIVE} | tar -xz
 ⇥ cd updo-${UPDO_VERSION}
 ⇥ stack install
 ⇥ cd -
@@ -393,15 +401,24 @@ Updo can bootstrap itself from a revision or branch too.
 1. From a revision:
 
 ```make
-UPDO_VERSION ?= 4a8359f4e5d8cad61f35bea9d0a8f04477829ca1
-UPDO_URL := https://github.com/cabalism/updo/archive/${UPDO_VERSION}.tar.gz
+# include bootstrap/repo-archive.mk
+UPDO_COMMIT_HASH ?= 60545b108b7a6a2f802ec7a161aa4b9eb7441baf
+UPDO_REPO_ROOT := https://github.com/cabalism/updo
+UPDO_ARCHIVE := ${UPDO_REPO_ROOT}/archive/${UPDO_COMMIT_HASH}.tar.gz
+UPDO_REF := ${UPDO_REPO_ROOT}/commit/${UPDO_COMMIT_HASH}
+```
 
+```make
+# include bootstrap/bootstrap.mk
 updo/Makefile:
+⇥ (info Referencing Updo at $(UPDO_COMMIT_URL))
 ⇥ rm -rf updo
-⇥ curl -sSL ${UPDO_URL} | tar -xz
+⇥ curl -sSL ${UPDO_ARCHIVE} | tar -xz
 ⇥ mv updo-* updo
 ⇥ chmod +x $$(grep -RIl '^#!' updo)
 ```
+
+The above as a script is [project-bootstrap-repo.sh](project-bootstrap-repo.sh).
 
 2. From a branch:
 

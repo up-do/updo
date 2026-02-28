@@ -1,0 +1,4 @@
+UPDO_COMMIT_HASH ?= 60545b108b7a6a2f802ec7a161aa4b9eb7441baf
+UPDO_REPO_ROOT := https://github.com/cabalism/updo
+UPDO_ARCHIVE := ${UPDO_REPO_ROOT}/archive/${UPDO_COMMIT_HASH}.tar.gz
+UPDO_REF := ${UPDO_REPO_ROOT}/commit/${UPDO_COMMIT_HASH}
