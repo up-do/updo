@@ -1,0 +1,21 @@
+# Cleaning
+
+There's a `clean` make target to remove all `ghc-x.y.z` prefixed projects:
+
+```
+$ make -f project-files.mk clean
+rm -f ghc-*.stack.* ghc-*.dhall2config.* ghc-*.dhall2cabal.* ghc-*.dhall2stack.*
+ghc-*.stack2cabal.* ghc-*.cabal2stack.* ghc-*.dhall2yaml2stack.* ghc-*.sha256map.nix
+```
+
+# Temporary Files
+
+To treat `ghc-x.y.z` prefixed files as temporary, add lines like these to
+`project-files.mk`:
+
+```make
+.INTERMEDIATE: ghc-$(GHC_VERSION).dhall2config.project
+.INTERMEDIATE: ghc-$(GHC_VERSION).dhall2cabal.project
+.INTERMEDIATE: ghc-$(GHC_VERSION).dhall2stack.yaml
+.INTERMEDIATE: ghc-$(GHC_VERSION).sha256map.nix
+```

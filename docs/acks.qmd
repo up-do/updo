@@ -1,0 +1,14 @@
+---
+title: "Acknowledgements"
+---
+
+FP Complete is the corporate sponsor of this tooling. Thanks FP Complete and
+thanks to my colleagues; Daniel Herrera Rendón for first seeing this could work,
+Neil Mayhew for makefile tips and tricks, Abel Sen for careful reviews and
+thoughtful suggestions and Eduardo Lemos Rocha for advocacy and enthusiasm.
+
+I already knew Dhall well from maintaining hpack-dhall. Thanks Simon Hengel for
+suggesting I take over its maintenance.
+
+Please contact me for any questions, problems, suggestions or the like.
+Maintenance of Updo will be coming from me and not FP Complete.

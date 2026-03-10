@@ -1,0 +1,69 @@
+> An "Updo" is a hairstyle and a way of making and **up**grading Haskell projects.
+
+Updo is a project generator for Haskell, making projects from packages,
+versions[^constraints] and commits[^unpublished-packages].
+
+[^constraints]: A dependency version equality constraint.
+[^unpublished-packages]: A package not published to hackage or stackage.
+
+### What is a Project?
+
+A project is a set of packages and other configuration that enable working on
+those packages together.
+
+### Need
+
+Updo grew to fill a need after every other way I could find to maintain projects
+was unsatisfactory for the specific problem I had, herding hundreds of packages
+and their dependencies into buildable projects over two compiler versions for
+both cabal and stack.
+
+### Goals
+
+1. One configuration for multiple project tools; for all of cabal, stack and Haskell.nix.
+2. Minimize the effort of upgrading to a new GHC version.
+
+We do this with configuration in `.dhall` files, makefiles and `dhall text`
+templates. We also have some simple Haskell scripts for operations not possible
+in Dhall like sorting a `List Text`[^dhall-sort-list-nat].
+
+[^dhall-sort-list-nat]: Dhall can only sort `List Natural`.
+
+::: {.callout-tip collapse="true"}
+## Why Dhall for Configuration?
+
+Dhall has excellent imports and is an intentionally limited typed programming
+language. We use dhall's `text` command to write cabal and stack projects using
+[dhall text templating][dhall-text-templating].
+
+The `dhall` executable comes with a `format` command[^format-lsp]. This helps in
+the maintenance of the various `.dhall` files.
+
+An example of the limits of the language we encountered in Updo is not being
+able to compare anything but `Natural` values. Sorting something like `List
+Text` is not possible but there is great interop with Haskell so this can be
+done over there as we do with scripts.
+:::
+
+### What can be Configured
+
+Updo is good for project packages, constraints[^constraints], source repository
+packages[^unpublished-packages] and stackage
+resolver[^download-stackage-config]. More than this can be added into a project
+template snippet for free-form content.
+
+### Testimonials
+
+> The more I use it, the more I love it as a fast and simple solution for maintaining Haskell projects.
+>
+> — @philderbeast
+
+[^download-stackage-config]: For cabal, the cabal.config will have to be
+  downloaded to `project-stackage/resolver.config` and then edited to comment
+  out constraints that would otherwise lead to impossible to solve conflicting
+  constraints because cabal constraints are additive and cannot be overridden.
+
+[^format-lsp]: Formatting is also available with the [Dhall LSP Server][LSP].
+
+[dhall-text-templating]: https://www.haskellforall.com/2017/06/dhall-is-now-template-engine.html
+[LSP]: https://github.com/PanAeon/vscode-dhall-lsp-server

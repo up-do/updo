@@ -1,0 +1,50 @@
+---
+title: "Upgrading"
+---
+
+# Upgrading a Project
+
+### GHC Upgrade
+For a GHC compiler upgrade, add another folder to `project-dhall` for the
+upgrade from `ghc-u.v.w` to `ghc-x.y.z`:
+
+```
+project-dhall
+├── ghc-u.v.w
+├── ghc-x.y.z
+├── pkgs
+├── pkg-groups.dhall        ▨ List Text
+└── pkgs-upgrade-todo.dhall ▨ List Text
+```
+
+At the start of a GHC upgrade put all packages into
+`project-dhall/pkgs-upgrade-todo.dhall`. As the upgrade progresses remove
+packages from this list as you work on them.
+
+### Constraint Upgrade
+For a dependency version upgrade, add or change an entry in `constraints.dhall`
+and if that dependency is on stackage for the resolver we're using and if the
+version there differs then comment out that entry in the downloaded
+`project-stackage/resolver-name.config` file to avoid impossible constraint
+solving conflicts with cabal.
+
+### Source Repository Upgrade
+For a source repository upgrade, bump the `tag` field if picking up a newer
+version.
+
+If the `tag` you were on has been superseded by a published version then delete
+the entry and add a constraint unless the published version is already a match
+in the downloaded `cabal.config` file from stackage.
+
+### Adding a Fork
+If you are forking then you'll want to add a record to `fork-internal.dhall` and
+then:
+- If forking a stackage package: comment out the entry in the downloaded `cabal.config`
+- If forking a hackage package: delete the matching entry in `constraints.dhall`
+
+Using someone else's fork is the same except add the record to
+`fork-external.dhall`.
+
+Unforking goes the other way, remove the `fork-*.dhall` entry and either
+fallback to the stackage version or another version for which you'll add an
+entry in `constraints.dhall`.

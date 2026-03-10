@@ -1,0 +1,11 @@
+# Exes or Scripts?
+
+To use the executables of Updo's own package, by default, instead of its
+scripts, add these lines to `project-files.mk`:
+
+```make
+SHA256MAP_HS_EXE ?= true
+PKG_GROUPS_HS_EXE ?= true
+PKGS_SORTED_HS_EXE ?= true
+PKGS_UPGRADE_DONE_HS_EXE ?= true
+```

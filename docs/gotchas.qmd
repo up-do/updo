@@ -1,0 +1,14 @@
+# Gotchas
+
+### Modified Time Travel
+
+Be careful with modified time that make relies on. If you hand-modify a target
+so that it is newer than a prerequisite then make will not use its recipe to
+build the target. This is easy to do inadvertently with a git GUI tool when
+discarding changes or by doing a `git restore <project-name>`. As git advances
+the modified time, this is effectively the same as `touch <project-name>`.  To
+recover from this situation, either;
+
+- Remove the target with `rm <project-name>`.
+- Run make with its `--always-make` flag but be careful with this if
+  bootstrapping updo itself within the makefile.
