@@ -1,0 +1,55 @@
+---
+title: "Nix"
+---
+
+# SHA256 Map Generation Method
+
+With this snippet from `project-files.mk`, we can switch between two methods of
+generating `ghc-x.y.z.sha256map.nix`.
+
+```make
+# How to generate project-nix/ghc-$(GHC_VERSION)/sha256map.nix?
+# This is copied from ghc-$(GHC_VERSION).sha256map.nix.
+#  - false to generate from *.dhall inputs via sha256map.hs.
+#  - true to generate from stack.yaml via sha256map.py.
+SHA256MAP_VIA_PYTHON ?= false
+
+# If true, generate the sha256map from the stack.yaml with python,
+# overriding the recipe for this target.
+ifeq ($(SHA256MAP_VIA_PYTHON), true)
+ghc-$(GHC_VERSION).sha256map.nix: stack.yaml
+⇥ updo/project-nix/sha256map.py <$^ >$@
+endif
+```
+
+The default is to use the `sha256map.hs` script to generate
+it[^replacing_versions]:
+
+[^replacing_versions]: Using ghc-x.y.z and lts-m.n in the example output, not
+  the actual GHC version or resolver.
+
+```
+$ make -f project-files.mk ghc-x.y.z.sha256map.nix
+echo \
+  '[./project-dhall/ghc-x.y.z/deps-external.dhall
+  , ./project-dhall/ghc-x.y.z/deps-internal.dhall
+  , ./project-dhall/ghc-x.y.z/forks-external.dhall
+  , ./project-dhall/ghc-x.y.z/forks-internal.dhall
+  , ([] : List {loc : Text, tag : Text, sub : List Text})
+  ]' \
+  | ./updo/project-nix/sha256map.hs > ghc-x.y.z.sha256map.nix
+```
+
+To use the `sha256map.py` script instead that is much slower:
+
+```
+$ SHA256MAP_VIA_PYTHON=true \
+  make -f project-files.mk project-nix/ghc-x.y.z/sha256map.nix
+updo/project-nix/sha256map.py <stack.yaml >ghc-x.y.z.sha256map.nix
+mkdir -p project-nix/ghc-x.y.z && cp ghc-x.y.z.sha256map.nix project-nix/ghc-x.y.z/sha256map.nix
+rm ghc-x.y.z.sha256map.nix
+
+```
+
+You can [read more about Updo Nix](project-nix#readme) and its use with
+haskell.nix.

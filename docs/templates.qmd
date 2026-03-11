@@ -1,0 +1,63 @@
+## Templates
+
+We generate projects from the configured inputs using templates.  With the
+`dhall text` command we're able to mirror to both stack and cabal projects using
+text templates.
+
+::: {.callout-note collapse="true"}
+## Dhall Text Templating
+Dhall text templating was
+[announced](https://www.haskellforall.com/2017/06/dhall-is-now-template-engine.html)
+in June 2017 and this is now a command of the dhall executable:
+
+```
+$ dhall text --help`
+Usage: dhall text [--file FILE] [--output FILE]
+  Render a Dhall expression that evaluates to a Text literal
+
+Available options:
+  --file FILE              Read expression from a file instead of standard input
+  --output FILE            Write result to a file instead of standard output
+  -h,--help                Show this help text
+```
+:::
+
+We provide one stack template `dhall2stack`. The `dhall2cabal` template for
+cabal is so similar that the generated outputs can be compared using file diff
+tooling. However, we prefer the `dhall2config` template because it retains
+package groups that can bring order to an [upgrade](#upgrading-a-project) if the
+cabal solving order is roughly captured by package group ordering.
+
+We provide one level of nesting for grouping packages together as inputs. Groups
+are preserved or flattened depending on the template.
+
+* `dhall2stack` - Stack projects cannot import so necessarily must lose the
+  grouping and contain the list of packages.
+* `dhall2cabal` - This template lists packages within the cabal project.
+* `dhall2config` - When generating the cabal project we keep [package
+  groups](#package-groups), generating the same tree structure but replacing the
+  leaves. From each `group-name.dhall` we generate a `group-name.config` file.
+
+It is nice to be able to look at packages both grouped and as one sorted list.
+Find the flat sorted lists of packages used by some templates in the `.updo`
+folder.
+
+```
+.updo
+├── pkgs-sorted.dhall        ▨ List Text
+└── pkgs-upgrade-done.dhall  ▨ List Text
+```
+
+If you don't want groups then please put all packages in the one group.
+
+# VERSION Templates
+
+From templates in `project-dhall/ghc-x.y.z/text-templates`:
+
+- From template `dhall2config.dhall`, we generate `ghc-x.y.z.dhall2config.project`
+- From template `dhall2cabal.dhall`, we generate `ghc-x.y.z.dhall2cabal.project`
+- From template `dhall2stack.dhall`, we generate `ghc-x.y.z.dhall2stack.yaml`
+
+By default the `ghc-x.y.z` prefixed files are intermediates that are cleaned up
+after use, after the default named projects are created, but you can elect to
+keep them.

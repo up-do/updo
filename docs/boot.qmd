@@ -1,0 +1,206 @@
+---
+title: "Downloading and Setup"
+---
+
+## Prerequisites
+
+[Make](https://www.gnu.org/software/make/) and [Dhall](https://dhall-lang.org/)
+are prerequisites.
+
+## Installation
+
+Updo is installed into your project's `updo` directory but this is not typically
+done manually. Its scratch directory is `.updo`. You'll want to have source
+control ignore both of these directories.
+
+```bash
+echo '.updo' >> .gitignore
+echo 'updo' >> .gitignore
+```
+
+Updo can bootstrap itself with a makefile recipe. We recommend putting one of
+these `updo/Makefile` file target recipes into `project-bootstrap.mk`. We supply
+scripts for setting this up. Whichever recipe you choose, you should include
+`project-bootstrap.mk` in `project-files.mk`. That way if the `updo` directory
+doesn't yet exist, it will be downloaded to the expected location automatically.
+
+### Bootstrap from Hackage
+
+Run the script [project-bootstrap-hackage.sh](project-bootstrap-hackage.sh) to
+write `project-bootstrap.mk` that will bootstrap Updo from Hackage.
+
+::: {.callout-caution collapse="true"}
+# Manually Fetching Updo from Hackage with Cabal
+The command `cabal get` can also unpack package sources from Hackage but doesn't
+support unpacking to a specific directory that does not match the package name
+with a version suffix.
+
+```pre
+$ cabal get updo
+Downloading  updo-1.0.0
+Downloaded   updo-1.0.0
+Unpacking to updo-1.0.0/
+```
+
+The `--destdir` option cannot be used to unpack a package to a specific
+directory. It controls where the unpacked package's parent directory is.
+
+```pre
+$ cabal get --help
+Download/Extract a package's source code (repository).
+...
+Flags for get:
+ -d PATH or -dPATH, --destdir=PATH
+                                Where to place the package source, defaults to
+                                the current directory.
+
+$ cabal get updo --destdir=updo
+Unpacking to updo/updo-1.0.0/
+```
+:::
+
+::: {.callout-caution collapse="true"}
+# Manually Fetching Updo from Hackage with Stack
+The command `stack unpack` can also unpack package sources from Hackage but
+doesn't support unpacking to a specific directory that does not match the
+package name with a version suffix.
+
+```pre
+# Manually fetching Updo from Hackage takes about 30s first time around
+$ stack unpack updo
+Updating the package index.
+Selected mirror https://hackage.haskell.org/
+Downloading timestamp
+Downloading snapshot
+Updating index
+Waiting to acquire cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock
+Acquired cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock
+Released cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock
+Updated package index downloaded
+Calculating hashes to check for hackage-security rebases or filesystem changes
+Updating preexisting cache, should be quick
+Populating cache from file size 1004695040, hash 3d9da2...
+Populating package index cache ...
+Package index cache populated
+Unpacked updo (from Hackage) to updo-1.0.0/.
+```
+
+The `--to` option cannot be used to unpack a package to a specific directory. It
+controls where the unpacked package's parent directory is.
+
+```
+$ stack unpack --help
+...
+Available options:
+  --to DIR                 Optionally, a directory to unpack into. A target will
+                           be unpacked into a subdirectory.
+
+$ stack unpack updo --to updo
+...
+Unpacked updo (from Hackage) to updo/updo-1.0.0/.
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Alternative Recipe to Install Updo Executables
+
+```make
+updo/Makefile:
+⇥ (info Referencing Updo at $(UPDO_HACKAGE_URL))
+⇥ rm -rf updo
+⇥ curl -sSL ${UPDO_ARCHIVE} | tar -xz
+⇥ cd updo-${UPDO_VERSION}
+⇥ stack install # or cabal install
+⇥ cd -
+⇥ mv updo-* updo
+```
+:::
+
+### Bootstrap from Source
+
+Run the script [project-bootstrap-repo.sh](project-bootstrap-repo.sh) to write
+`project-bootstrap.mk` that will bootstrap Updo from a fixed revision from its
+source code Git repository.
+
+::: {.callout-caution collapse="true"}
+# Manually Fetching Updo from Source Code Repository via Hackage with Cabal
+The command `cabal get --source-repository=head` can get sources from the source
+code repository of the package known to Hackage. This clones the source
+repository to a directory with the same name as the package.
+
+```pre
+$ cabal get --help
+Download/Extract a package's source code (repository).
+...
+Flags for get:
+ -s[[head|this|...]], --source-repository[=[head|this|...]]
+                                Copy the package's source repository (ie git
+                                clone, darcs get, etc as appropriate).
+```
+
+```pre
+$ cabal get updo --source-repository=head
+cabal get updo --source-repository=head
+Cloning into 'updo'...
+remote: Enumerating objects: 1175, done.
+remote: Counting objects: 100% (208/208), done.
+remote: Compressing objects: 100% (99/99), done.
+remote: Total 1175 (delta 157), reused 150 (delta 107), pack-reused 967 (from 2)
+Receiving objects: 100% (1175/1175), 761.45 KiB | 4.01 MiB/s, done.
+Resolving deltas: 100% (652/652), done.
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Alternative Recipe to Bootstrap from a Repository Branch
+
+```make
+updo/Makefile:
+⇥ rm -rf updo
+⇥ git clone --depth=1 --branch main git@github.com:cabalism/updo
+⇥ chmod +x $$(grep -RIl '^#!' updo)
+```
+:::
+
+## Makefiles
+
+In the root of your project, in addition to `project-bootstrap.mk`, add two other makefiles.
+
+```
+.
+├── project-bootstrap.mk
+├── project-files.mk
+└── project-versions.mk
+```
+
+### VERSION Variables
+
+In `project-versions.mk` set variables for GHC and STACKAGE.
+
+```make
+GHC_VERSION := x.y.z
+STACKAGE_VERSION := lts-j.k
+```
+
+Here is a basic set up for `project-files.mk`:
+
+```make
+include project-bootstrap.mk
+include project-versions.mk
+include updo/Makefile
+```
+
+## Generate Projects
+
+Now you can generate both `cabal.project` and `stack.yaml` project files by running:
+
+```pre
+$ make -f project-files.mk
+```
+
+If you only want to generate a specific kind of project file, you can specify
+the target file explicitly, adding `cabal.project`, `stack.yaml`, or
+`stack.yaml.lock` as appropriate.
+
+If you are converting an existing project to use Updo, try to recreate the
+existing project structure but with Updo generating the project file.

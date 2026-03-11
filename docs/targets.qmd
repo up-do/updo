@@ -1,0 +1,99 @@
+---
+title: "Make Targets"
+---
+
+In the root of your project, add two files.
+
+```
+.
+├── project-files.mk
+└── project-versions.mk
+```
+
+### VERSION Variables
+
+In `project-versions.mk` set variables for GHC and STACKAGE.
+
+```make
+GHC_VERSION := u.v.w
+STACKAGE_VERSION := lts-j.k
+```
+
+Here is a basic set up for `project-files.mk`:
+
+```make
+include project-versions.mk
+include updo/Makefile
+```
+
+While doing an upgrade, you can use `UPGRADE` variables to specify upgrade
+versions for GHC and STACKAGE.
+
+::: {.callout-note}
+If there's not a matching version of stackage, set the resolver[^resolver-deprecated] to match to the
+GHC upgrade version:
+
+```make
+STACKAGE_UPGRADE := ghc-x.y.z
+```
+[^resolver-deprecated]: The `resolver` has been deprecated in favour of `snapshot`.
+:::
+
+```make
+GHC_UPGRADE := x.y.z
+STACKAGE_UPGRADE := lts-m.n
+```
+
+### Canonical Targets
+
+We consider the following as canonical project names and no target is required
+to build them (they're built by the default `all` target):
+
+```
+$ make -f project-files.mk
+```
+
+- `stack.yaml`
+- `cabal.project`
+- `stack.upgrade.yaml`
+- `cabal.upgrade.project`
+
+We use CABAL_VIA and STACK_VIA makefile variables to decide which `ghc-x.y.z`
+prefixed projects will be copied to the default project names (`cabal.project`
+and `stack.yaml`). This way, Updo will create a single pair of projects for one
+version of GHC.
+
+### GHC-Prefixed Targets
+
+We can build `ghc-x.y.z` projects explicitly:
+
+```
+$ make -f project-files.mk ghc-x.y.z.dhall2config.project
+$ make -f project-files.mk ghc-x.y.z.dhall2cabal.project
+$ make -f project-files.mk ghc-x.y.z.dhall2stack.yaml
+```
+
+### Lock Files
+
+For stack, the project and its lock are separate targets (`.yaml` and
+`.yaml.lock`).
+
+```
+$ make -f project-files.mk ghc-x.y.z.dhall2stack.yaml
+dhall text --file project-dhall/ghc-x.y.z/project-stack.dhall > ghc-x.y.z.dhall2stack.yaml
+```
+
+```
+$ make -f project-files.mk ghc-x.y.z.dhall2stack.yaml.lock
+stack build --dry-run --stack-yaml ghc-x.y.z.dhall2stack.yaml
+```
+
+We don't provide a make target for cabal `.project.freeze` files, relying
+instead on a combination of constraints, those in the `cabal.config` downloaded
+from stackage and those we add ourselves to `constraints.dhall`. If you do want
+to freeze anyway there's a cabal command to generate a freeze file.
+
+```
+$ make -f project-files.mk ghc-x.y.z.dhall2cabal.project
+dhall text --file project-dhall/ghc-x.y.z/project-cabal.dhall > ghc-x.y.z.dhall2cabal.project
+```
