@@ -1,16 +1,219 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Updo",
+    "objectID": "clean.html",
+    "href": "clean.html",
+    "title": "Cleaning",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "Cleaning\nThere’s a clean make target to remove all ghc-x.y.z prefixed projects:\n$ make -f project-files.mk clean\nrm -f ghc-*.stack.* ghc-*.dhall2config.* ghc-*.dhall2cabal.* ghc-*.dhall2stack.*\nghc-*.stack2cabal.* ghc-*.cabal2stack.* ghc-*.dhall2yaml2stack.* ghc-*.sha256map.nix\n\n\nTemporary Files\nTo treat ghc-x.y.z prefixed files as temporary, add lines like these to project-files.mk:\n.INTERMEDIATE: ghc-$(GHC_VERSION).dhall2config.project\n.INTERMEDIATE: ghc-$(GHC_VERSION).dhall2cabal.project\n.INTERMEDIATE: ghc-$(GHC_VERSION).dhall2stack.yaml\n.INTERMEDIATE: ghc-$(GHC_VERSION).sha256map.nix",
+    "crumbs": [
+      "Projects",
+      "Cleaning"
+    ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "config.html",
+    "href": "config.html",
+    "title": "Configuration",
     "section": "",
-    "text": "About this site"
+    "text": "Maintaining a project involves configuring or reconfiguring inputs and then using make to generate the projects. What do we want to configure? We don’t need much:\nAll configuration goes into ./project-dhall (where . is the root folder for your Haskell project) except for the cabal.config that we’ll likely need to download from stackage and modify. Save this file as project-stackage/lts-m.n.config using the exact resolver name.\nAny == constraint that gives the cabal solver impossible constraints can then be commented out by prepending with --. If there are no impossible constraints then the stackage resolver can be imported directly from https://stackage.org.\nThe dhall2cabal and dhall2config text templates import stackage constraints from one of the following locations by invoking updo/text-templates/import-stackage.dhall:\nFor each ghc-x.y.z compiler version, create this set of inputs and templates:\nAll of the inputs can be omitted, any of:\nAnything in stacksnippet.dhall gets added to the top of the generated stack project4. The rest of the files are inputs.",
+    "crumbs": [
+      "Projects",
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "config.html#footnotes",
+    "href": "config.html#footnotes",
+    "title": "Configuration",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nFor cabal, the cabal.config will have to be downloaded to project-stackage/resolver.config and then edited to comment out constraints that would otherwise lead to impossible to solve conflicting constraints because cabal constraints are additive and cannot be overridden.↩︎\nTo stack, constraints and source repository packages are both extra-deps. We use cabal-like nomenclature but, be warned, cabal constraints cover more than just package ==version, such as flags:\nconstraints:\n    bson -_old-network\n  , HaXml +splitbase\n↩︎\nA package not published to hackage or stackage.↩︎\nAnything in stacksnippet.dhall will be used by dhall2yaml2stack too and is put into a base.yaml, the topmost fragment when stitching together fragments.↩︎\nThe URL path to download this file from is /resolver/cabal.config. The latest nightly is always at https://www.stackage.org/nightly/cabal.config.↩︎\nTo stack, constraints and source repository packages are both extra-deps. We use cabal-like nomenclature but, be warned, cabal constraints cover more than just package ==version, such as flags:\nconstraints:\n    bson -_old-network\n  , HaXml +splitbase\n↩︎\nCabal’s revision feature is not yet implemented so these suffixes are stripped for Cabal projects.↩︎\nDhall can’t do arbitrary IO like reading files from a folder.↩︎",
+    "crumbs": [
+      "Projects",
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "acks.html",
+    "href": "acks.html",
+    "title": "Acknowledgements",
+    "section": "",
+    "text": "FP Complete is the corporate sponsor of this tooling. Thanks FP Complete and thanks to my colleagues; Daniel Herrera Rendón for first seeing this could work, Neil Mayhew for makefile tips and tricks, Abel Sen for careful reviews and thoughtful suggestions and Eduardo Lemos Rocha for advocacy and enthusiasm.\nI already knew Dhall well from maintaining hpack-dhall. Thanks Simon Hengel for suggesting I take over its maintenance.\nPlease contact me for any questions, problems, suggestions or the like. Maintenance of Updo will be coming from me and not FP Complete.",
+    "crumbs": [
+      "Acknowledgements"
+    ]
+  },
+  {
+    "objectID": "gotchas.html",
+    "href": "gotchas.html",
+    "title": "Gotchas",
+    "section": "",
+    "text": "Gotchas\n\nModified Time Travel\nBe careful with modified time that make relies on. If you hand-modify a target so that it is newer than a prerequisite then make will not use its recipe to build the target. This is easy to do inadvertently with a git GUI tool when discarding changes or by doing a git restore &lt;project-name&gt;. As git advances the modified time, this is effectively the same as touch &lt;project-name&gt;. To recover from this situation, either;\n\nRemove the target with rm &lt;project-name&gt;.\nRun make with its --always-make flag but be careful with this if bootstrapping updo itself within the makefile.",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Gotchas"
+    ]
+  },
+  {
+    "objectID": "install.html",
+    "href": "install.html",
+    "title": "Exes or Scripts?",
+    "section": "",
+    "text": "Exes or Scripts?\nTo use the executables of Updo’s own package, by default, instead of its scripts, add these lines to project-files.mk:\nSHA256MAP_HS_EXE ?= true\nPKG_GROUPS_HS_EXE ?= true\nPKGS_SORTED_HS_EXE ?= true\nPKGS_UPGRADE_DONE_HS_EXE ?= true",
+    "crumbs": [
+      "Getting Started",
+      "Exes or Scripts?"
+    ]
+  },
+  {
+    "objectID": "targets.html",
+    "href": "targets.html",
+    "title": "Make Targets",
+    "section": "",
+    "text": "In the root of your project, add two files.",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Make Targets"
+    ]
+  },
+  {
+    "objectID": "targets.html#footnotes",
+    "href": "targets.html#footnotes",
+    "title": "Make Targets",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe resolver has been deprecated in favour of snapshot.↩︎",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Make Targets"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "<img src=\"updo-offset.svg\" height=\"80px\" />",
+    "section": "",
+    "text": "An “Updo” is a hairstyle and a way of making and upgrading Haskell projects.\nMake projects from packages, versions1 and commits2.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#footnotes",
+    "href": "index.html#footnotes",
+    "title": "<img src=\"updo-offset.svg\" height=\"80px\" />",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nA dependency version equality constraint.↩︎\nA package not published to hackage or stackage.↩︎\nDhall can only sort List Natural.↩︎\nFormatting is also available with the Dhall LSP Server.↩︎\nA dependency version equality constraint.↩︎\nA package not published to hackage or stackage.↩︎\nFor cabal, the cabal.config will have to be downloaded to project-stackage/resolver.config and then edited to comment out constraints that would otherwise lead to impossible to solve conflicting constraints because cabal constraints are additive and cannot be overridden.↩︎",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "templates.html",
+    "href": "templates.html",
+    "title": "VERSION Templates",
+    "section": "",
+    "text": "We generate projects from the configured inputs using templates. With the dhall text command we’re able to mirror to both stack and cabal projects using text templates.\n\n\n\n\n\n\nNoteDhall Text Templating\n\n\n\n\n\nDhall text templating was announced in June 2017 and this is now a command of the dhall executable:\n$ dhall text --help`\nUsage: dhall text [--file FILE] [--output FILE]\n  Render a Dhall expression that evaluates to a Text literal\n\nAvailable options:\n  --file FILE              Read expression from a file instead of standard input\n  --output FILE            Write result to a file instead of standard output\n  -h,--help                Show this help text\n\n\n\nWe provide one stack template dhall2stack. The dhall2cabal template for cabal is so similar that the generated outputs can be compared using file diff tooling. However, we prefer the dhall2config template because it retains package groups that can bring order to an upgrade if the cabal solving order is roughly captured by package group ordering.\nWe provide one level of nesting for grouping packages together as inputs. Groups are preserved or flattened depending on the template.\n\ndhall2stack - Stack projects cannot import so necessarily must lose the grouping and contain the list of packages.\ndhall2cabal - This template lists packages within the cabal project.\ndhall2config - When generating the cabal project we keep package groups, generating the same tree structure but replacing the leaves. From each group-name.dhall we generate a group-name.config file.\n\nIt is nice to be able to look at packages both grouped and as one sorted list. Find the flat sorted lists of packages used by some templates in the .updo folder.\n.updo\n├── pkgs-sorted.dhall        ▨ List Text\n└── pkgs-upgrade-done.dhall  ▨ List Text\nIf you don’t want groups then please put all packages in the one group.",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Templates"
+    ]
+  },
+  {
+    "objectID": "templates.html#templates",
+    "href": "templates.html#templates",
+    "title": "VERSION Templates",
+    "section": "",
+    "text": "We generate projects from the configured inputs using templates. With the dhall text command we’re able to mirror to both stack and cabal projects using text templates.\n\n\n\n\n\n\nNoteDhall Text Templating\n\n\n\n\n\nDhall text templating was announced in June 2017 and this is now a command of the dhall executable:\n$ dhall text --help`\nUsage: dhall text [--file FILE] [--output FILE]\n  Render a Dhall expression that evaluates to a Text literal\n\nAvailable options:\n  --file FILE              Read expression from a file instead of standard input\n  --output FILE            Write result to a file instead of standard output\n  -h,--help                Show this help text\n\n\n\nWe provide one stack template dhall2stack. The dhall2cabal template for cabal is so similar that the generated outputs can be compared using file diff tooling. However, we prefer the dhall2config template because it retains package groups that can bring order to an upgrade if the cabal solving order is roughly captured by package group ordering.\nWe provide one level of nesting for grouping packages together as inputs. Groups are preserved or flattened depending on the template.\n\ndhall2stack - Stack projects cannot import so necessarily must lose the grouping and contain the list of packages.\ndhall2cabal - This template lists packages within the cabal project.\ndhall2config - When generating the cabal project we keep package groups, generating the same tree structure but replacing the leaves. From each group-name.dhall we generate a group-name.config file.\n\nIt is nice to be able to look at packages both grouped and as one sorted list. Find the flat sorted lists of packages used by some templates in the .updo folder.\n.updo\n├── pkgs-sorted.dhall        ▨ List Text\n└── pkgs-upgrade-done.dhall  ▨ List Text\nIf you don’t want groups then please put all packages in the one group.",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Templates"
+    ]
+  },
+  {
+    "objectID": "upgrade.html",
+    "href": "upgrade.html",
+    "title": "Upgrading",
+    "section": "",
+    "text": "Upgrading a Project\n\nGHC Upgrade\nFor a GHC compiler upgrade, add another folder to project-dhall for the upgrade from ghc-u.v.w to ghc-x.y.z:\nproject-dhall\n├── ghc-u.v.w\n├── ghc-x.y.z\n├── pkgs\n├── pkg-groups.dhall        ▨ List Text\n└── pkgs-upgrade-todo.dhall ▨ List Text\nAt the start of a GHC upgrade put all packages into project-dhall/pkgs-upgrade-todo.dhall. As the upgrade progresses remove packages from this list as you work on them.\n\n\nConstraint Upgrade\nFor a dependency version upgrade, add or change an entry in constraints.dhall and if that dependency is on stackage for the resolver we’re using and if the version there differs then comment out that entry in the downloaded project-stackage/resolver-name.config file to avoid impossible constraint solving conflicts with cabal.\n\n\nSource Repository Upgrade\nFor a source repository upgrade, bump the tag field if picking up a newer version.\nIf the tag you were on has been superseded by a published version then delete the entry and add a constraint unless the published version is already a match in the downloaded cabal.config file from stackage.\n\n\nAdding a Fork\nIf you are forking then you’ll want to add a record to fork-internal.dhall and then: - If forking a stackage package: comment out the entry in the downloaded cabal.config - If forking a hackage package: delete the matching entry in constraints.dhall\nUsing someone else’s fork is the same except add the record to fork-external.dhall.\nUnforking goes the other way, remove the fork-*.dhall entry and either fallback to the stackage version or another version for which you’ll add an entry in constraints.dhall.",
+    "crumbs": [
+      "Projects",
+      "Upgrading"
+    ]
+  },
+  {
+    "objectID": "nix.html",
+    "href": "nix.html",
+    "title": "Nix",
+    "section": "",
+    "text": "With this snippet from project-files.mk, we can switch between two methods of generating ghc-x.y.z.sha256map.nix.\n# How to generate project-nix/ghc-$(GHC_VERSION)/sha256map.nix?\n# This is copied from ghc-$(GHC_VERSION).sha256map.nix.\n#  - false to generate from *.dhall inputs via sha256map.hs.\n#  - true to generate from stack.yaml via sha256map.py.\nSHA256MAP_VIA_PYTHON ?= false\n\n# If true, generate the sha256map from the stack.yaml with python,\n# overriding the recipe for this target.\nifeq ($(SHA256MAP_VIA_PYTHON), true)\nghc-$(GHC_VERSION).sha256map.nix: stack.yaml\n⇥ updo/project-nix/sha256map.py &lt;$^ &gt;$@\nendif\nThe default is to use the sha256map.hs script to generate it1:\n$ make -f project-files.mk ghc-x.y.z.sha256map.nix\necho \\\n  '[./project-dhall/ghc-x.y.z/deps-external.dhall\n  , ./project-dhall/ghc-x.y.z/deps-internal.dhall\n  , ./project-dhall/ghc-x.y.z/forks-external.dhall\n  , ./project-dhall/ghc-x.y.z/forks-internal.dhall\n  , ([] : List {loc : Text, tag : Text, sub : List Text})\n  ]' \\\n  | ./updo/project-nix/sha256map.hs &gt; ghc-x.y.z.sha256map.nix\nTo use the sha256map.py script instead that is much slower:\n$ SHA256MAP_VIA_PYTHON=true \\\n  make -f project-files.mk project-nix/ghc-x.y.z/sha256map.nix\nupdo/project-nix/sha256map.py &lt;stack.yaml &gt;ghc-x.y.z.sha256map.nix\nmkdir -p project-nix/ghc-x.y.z && cp ghc-x.y.z.sha256map.nix project-nix/ghc-x.y.z/sha256map.nix\nrm ghc-x.y.z.sha256map.nix\n\nYou can read more about Updo Nix and its use with haskell.nix.",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Nix"
+    ]
+  },
+  {
+    "objectID": "nix.html#footnotes",
+    "href": "nix.html#footnotes",
+    "title": "Nix",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nUsing ghc-x.y.z and lts-m.n in the example output, not the actual GHC version or resolver.↩︎",
+    "crumbs": [
+      "Nuts and Bolts",
+      "Nix"
+    ]
+  },
+  {
+    "objectID": "boot.html",
+    "href": "boot.html",
+    "title": "Downloading and Setup",
+    "section": "",
+    "text": "Make and Dhall are prerequisites.",
+    "crumbs": [
+      "Getting Started",
+      "Downloading and Setup"
+    ]
+  },
+  {
+    "objectID": "boot.html#prerequisites",
+    "href": "boot.html#prerequisites",
+    "title": "Downloading and Setup",
+    "section": "",
+    "text": "Make and Dhall are prerequisites.",
+    "crumbs": [
+      "Getting Started",
+      "Downloading and Setup"
+    ]
+  },
+  {
+    "objectID": "boot.html#installation",
+    "href": "boot.html#installation",
+    "title": "Downloading and Setup",
+    "section": "Installation",
+    "text": "Installation\nUpdo is installed into your project’s updo directory but this is not typically done manually. Its scratch directory is .updo. You’ll want to have source control ignore both of these directories.\necho '.updo' &gt;&gt; .gitignore\necho 'updo' &gt;&gt; .gitignore\nUpdo can bootstrap itself with a makefile recipe. We recommend putting one of these updo/Makefile file target recipes into project-bootstrap.mk. We supply scripts for setting this up. Whichever recipe you choose, you should include project-bootstrap.mk in project-files.mk. That way if the updo directory doesn’t yet exist, it will be downloaded to the expected location automatically.\n\nBootstrap from Hackage\nRun the script project-bootstrap-hackage.sh to write project-bootstrap.mk that will bootstrap Updo from Hackage.\n\n\n\n\n\n\nCautionManually Fetching Updo from Hackage with Cabal\n\n\n\n\n\nThe command cabal get can also unpack package sources from Hackage but doesn’t support unpacking to a specific directory that does not match the package name with a version suffix.\n$ cabal get updo\nDownloading  updo-1.0.0\nDownloaded   updo-1.0.0\nUnpacking to updo-1.0.0/\nThe --destdir option cannot be used to unpack a package to a specific directory. It controls where the unpacked package’s parent directory is.\n$ cabal get --help\nDownload/Extract a package's source code (repository).\n...\nFlags for get:\n -d PATH or -dPATH, --destdir=PATH\n                                Where to place the package source, defaults to\n                                the current directory.\n\n$ cabal get updo --destdir=updo\nUnpacking to updo/updo-1.0.0/\n\n\n\n\n\n\n\n\n\nCautionManually Fetching Updo from Hackage with Stack\n\n\n\n\n\nThe command stack unpack can also unpack package sources from Hackage but doesn’t support unpacking to a specific directory that does not match the package name with a version suffix.\n# Manually fetching Updo from Hackage takes about 30s first time around\n$ stack unpack updo\nUpdating the package index.\nSelected mirror https://hackage.haskell.org/\nDownloading timestamp\nDownloading snapshot\nUpdating index\nWaiting to acquire cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock\nAcquired cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock\nReleased cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock\nUpdated package index downloaded\nCalculating hashes to check for hackage-security rebases or filesystem changes\nUpdating preexisting cache, should be quick\nPopulating cache from file size 1004695040, hash 3d9da2...\nPopulating package index cache ...\nPackage index cache populated\nUnpacked updo (from Hackage) to updo-1.0.0/.\nThe --to option cannot be used to unpack a package to a specific directory. It controls where the unpacked package’s parent directory is.\n$ stack unpack --help\n...\nAvailable options:\n  --to DIR                 Optionally, a directory to unpack into. A target will\n                           be unpacked into a subdirectory.\n\n$ stack unpack updo --to updo\n...\nUnpacked updo (from Hackage) to updo/updo-1.0.0/.\n\n\n\n\n\n\n\n\n\nTipAlternative Recipe to Install Updo Executables\n\n\n\n\n\nupdo/Makefile:\n⇥ (info Referencing Updo at $(UPDO_HACKAGE_URL))\n⇥ rm -rf updo\n⇥ curl -sSL ${UPDO_ARCHIVE} | tar -xz\n⇥ cd updo-${UPDO_VERSION}\n⇥ stack install # or cabal install\n⇥ cd -\n⇥ mv updo-* updo\n\n\n\n\n\nBootstrap from Source\nRun the script project-bootstrap-repo.sh to write project-bootstrap.mk that will bootstrap Updo from a fixed revision from its source code Git repository.\n\n\n\n\n\n\nCautionManually Fetching Updo from Source Code Repository via Hackage with Cabal\n\n\n\n\n\nThe command cabal get --source-repository=head can get sources from the source code repository of the package known to Hackage. This clones the source repository to a directory with the same name as the package.\n$ cabal get --help\nDownload/Extract a package's source code (repository).\n...\nFlags for get:\n -s[[head|this|...]], --source-repository[=[head|this|...]]\n                                Copy the package's source repository (ie git\n                                clone, darcs get, etc as appropriate).\n$ cabal get updo --source-repository=head\ncabal get updo --source-repository=head\nCloning into 'updo'...\nremote: Enumerating objects: 1175, done.\nremote: Counting objects: 100% (208/208), done.\nremote: Compressing objects: 100% (99/99), done.\nremote: Total 1175 (delta 157), reused 150 (delta 107), pack-reused 967 (from 2)\nReceiving objects: 100% (1175/1175), 761.45 KiB | 4.01 MiB/s, done.\nResolving deltas: 100% (652/652), done.\n\n\n\n\n\n\n\n\n\nTipAlternative Recipe to Bootstrap from a Repository Branch\n\n\n\n\n\nupdo/Makefile:\n⇥ rm -rf updo\n⇥ git clone --depth=1 --branch main git@github.com:cabalism/updo\n⇥ chmod +x $$(grep -RIl '^#!' updo)",
+    "crumbs": [
+      "Getting Started",
+      "Downloading and Setup"
+    ]
+  },
+  {
+    "objectID": "boot.html#makefiles",
+    "href": "boot.html#makefiles",
+    "title": "Downloading and Setup",
+    "section": "Makefiles",
+    "text": "Makefiles\nIn the root of your project, in addition to project-bootstrap.mk, add two other makefiles.\n.\n├── project-bootstrap.mk\n├── project-files.mk\n└── project-versions.mk\n\nVERSION Variables\nIn project-versions.mk set variables for GHC and STACKAGE.\nGHC_VERSION := x.y.z\nSTACKAGE_VERSION := lts-j.k\nHere is a basic set up for project-files.mk:\ninclude project-bootstrap.mk\ninclude project-versions.mk\ninclude updo/Makefile",
+    "crumbs": [
+      "Getting Started",
+      "Downloading and Setup"
+    ]
+  },
+  {
+    "objectID": "boot.html#generate-projects",
+    "href": "boot.html#generate-projects",
+    "title": "Downloading and Setup",
+    "section": "Generate Projects",
+    "text": "Generate Projects\nNow you can generate both cabal.project and stack.yaml project files by running:\n$ make -f project-files.mk\nIf you only want to generate a specific kind of project file, you can specify the target file explicitly, adding cabal.project, stack.yaml, or stack.yaml.lock as appropriate.\nIf you are converting an existing project to use Updo, try to recreate the existing project structure but with Updo generating the project file.",
+    "crumbs": [
+      "Getting Started",
+      "Downloading and Setup"
+    ]
   }
 ]

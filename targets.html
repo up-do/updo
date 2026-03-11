@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title></title>
+<title>Make Targets – </title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -84,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./templates.html">Nuts and Bolts</a></li><li class="breadcrumb-item"><a href="./targets.html">Make Targets</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -111,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -184,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./targets.html" class="sidebar-item-text sidebar-link">
+  <a href="./targets.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Make Targets</span></a>
   </div>
 </li>
@@ -218,68 +218,94 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-a-project" id="toc-what-is-a-project" class="nav-link active" data-scroll-target="#what-is-a-project">What is a Project?</a></li>
-  <li><a href="#need" id="toc-need" class="nav-link" data-scroll-target="#need">Need</a></li>
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
-  <li><a href="#what-can-be-configured" id="toc-what-can-be-configured" class="nav-link" data-scroll-target="#what-can-be-configured">What can be Configured</a></li>
-  <li><a href="#testimonials" id="toc-testimonials" class="nav-link" data-scroll-target="#testimonials">Testimonials</a></li>
+  <li><a href="#version-variables" id="toc-version-variables" class="nav-link active" data-scroll-target="#version-variables">VERSION Variables</a></li>
+  <li><a href="#canonical-targets" id="toc-canonical-targets" class="nav-link" data-scroll-target="#canonical-targets">Canonical Targets</a></li>
+  <li><a href="#ghc-prefixed-targets" id="toc-ghc-prefixed-targets" class="nav-link" data-scroll-target="#ghc-prefixed-targets">GHC-Prefixed Targets</a></li>
+  <li><a href="#lock-files" id="toc-lock-files" class="nav-link" data-scroll-target="#lock-files">Lock Files</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./templates.html">Nuts and Bolts</a></li><li class="breadcrumb-item"><a href="./targets.html">Make Targets</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Make Targets</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<blockquote class="blockquote">
-<p>An “Updo” is a hairstyle and a way of making and <strong>up</strong>grading Haskell projects.</p>
-</blockquote>
-<p>Make projects from packages, versions<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and commits<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<section id="what-is-a-project" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-a-project">What is a Project?</h3>
-<p>A project is a set of packages and other configuration that enable working on those packages together.</p>
-</section>
-<section id="need" class="level3">
-<h3 class="anchored" data-anchor-id="need">Need</h3>
-<p>Updo grew to fill a need after every other way I could find to maintain projects was unsatisfactory for the specific problem I had, herding hundreds of packages and their dependencies into buildable projects over two compiler versions for both cabal and stack.</p>
-</section>
-<section id="goals" class="level3">
-<h3 class="anchored" data-anchor-id="goals">Goals</h3>
-<ol type="1">
-<li>One configuration for multiple project tools; for all of cabal, stack and Haskell.nix.</li>
-<li>Minimize the effort of upgrading to a new GHC version.</li>
-</ol>
-<p>We do this with configuration in <code>.dhall</code> files, makefiles and <code>dhall text</code> templates. We also have some simple Haskell scripts for operations not possible in Dhall like sorting a <code>List Text</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In the root of your project, add two files.</p>
+<pre><code>.
+├── project-files.mk
+└── project-versions.mk</code></pre>
+<section id="version-variables" class="level3">
+<h3 class="anchored" data-anchor-id="version-variables">VERSION Variables</h3>
+<p>In <code>project-versions.mk</code> set variables for GHC and STACKAGE.</p>
+<pre class="make"><code>GHC_VERSION := u.v.w
+STACKAGE_VERSION := lts-j.k</code></pre>
+<p>Here is a basic set up for <code>project-files.mk</code>:</p>
+<pre class="make"><code>include project-versions.mk
+include updo/Makefile</code></pre>
+<p>While doing an upgrade, you can use <code>UPGRADE</code> variables to specify upgrade versions for GHC and STACKAGE.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Why Dhall for Configuration?
+Note
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Dhall has excellent imports and is an intentionally limited typed programming language. We use dhall’s <code>text</code> command to write cabal and stack projects using <a href="https://www.haskellforall.com/2017/06/dhall-is-now-template-engine.html">dhall text templating</a>.</p>
-<p>The <code>dhall</code> executable comes with a <code>format</code> command<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. This helps in the maintenance of the various <code>.dhall</code> files.</p>
-<p>An example of the limits of the language we encountered in Updo is not being able to compare anything but <code>Natural</code> values. Sorting something like <code>List Text</code> is not possible but there is great interop with Haskell so this can be done over there as we do with scripts.</p>
+<p>If there’s not a matching version of stackage, set the resolver<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to match to the GHC upgrade version:</p>
+<pre class="make"><code>STACKAGE_UPGRADE := ghc-x.y.z</code></pre>
 </div>
 </div>
-</div>
+<pre class="make"><code>GHC_UPGRADE := x.y.z
+STACKAGE_UPGRADE := lts-m.n</code></pre>
 </section>
-<section id="what-can-be-configured" class="level3">
-<h3 class="anchored" data-anchor-id="what-can-be-configured">What can be Configured</h3>
-<p>Updo is good for project packages, constraints<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, source repository packages<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> and stackage resolver<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. More than this can be added into a project template snippet for free-form content.</p>
+<section id="canonical-targets" class="level3">
+<h3 class="anchored" data-anchor-id="canonical-targets">Canonical Targets</h3>
+<p>We consider the following as canonical project names and no target is required to build them (they’re built by the default <code>all</code> target):</p>
+<pre><code>$ make -f project-files.mk</code></pre>
+<ul>
+<li><code>stack.yaml</code></li>
+<li><code>cabal.project</code></li>
+<li><code>stack.upgrade.yaml</code></li>
+<li><code>cabal.upgrade.project</code></li>
+</ul>
+<p>We use CABAL_VIA and STACK_VIA makefile variables to decide which <code>ghc-x.y.z</code> prefixed projects will be copied to the default project names (<code>cabal.project</code> and <code>stack.yaml</code>). This way, Updo will create a single pair of projects for one version of GHC.</p>
 </section>
-<section id="testimonials" class="level3">
-<h3 class="anchored" data-anchor-id="testimonials">Testimonials</h3>
-<blockquote class="blockquote">
-<p>The more I use it, the more I love it as a fast and simple solution for maintaining Haskell projects.</p>
-<p>— <span class="citation" data-cites="philderbeast">@philderbeast</span></p>
-</blockquote>
+<section id="ghc-prefixed-targets" class="level3">
+<h3 class="anchored" data-anchor-id="ghc-prefixed-targets">GHC-Prefixed Targets</h3>
+<p>We can build <code>ghc-x.y.z</code> projects explicitly:</p>
+<pre><code>$ make -f project-files.mk ghc-x.y.z.dhall2config.project
+$ make -f project-files.mk ghc-x.y.z.dhall2cabal.project
+$ make -f project-files.mk ghc-x.y.z.dhall2stack.yaml</code></pre>
+</section>
+<section id="lock-files" class="level3">
+<h3 class="anchored" data-anchor-id="lock-files">Lock Files</h3>
+<p>For stack, the project and its lock are separate targets (<code>.yaml</code> and <code>.yaml.lock</code>).</p>
+<pre><code>$ make -f project-files.mk ghc-x.y.z.dhall2stack.yaml
+dhall text --file project-dhall/ghc-x.y.z/project-stack.dhall &gt; ghc-x.y.z.dhall2stack.yaml</code></pre>
+<pre><code>$ make -f project-files.mk ghc-x.y.z.dhall2stack.yaml.lock
+stack build --dry-run --stack-yaml ghc-x.y.z.dhall2stack.yaml</code></pre>
+<p>We don’t provide a make target for cabal <code>.project.freeze</code> files, relying instead on a combination of constraints, those in the <code>cabal.config</code> downloaded from stackage and those we add ourselves to <code>constraints.dhall</code>. If you do want to freeze anyway there’s a cabal command to generate a freeze file.</p>
+<pre><code>$ make -f project-files.mk ghc-x.y.z.dhall2cabal.project
+dhall text --file project-dhall/ghc-x.y.z/project-cabal.dhall &gt; ghc-x.y.z.dhall2cabal.project</code></pre>
 
 
 </section>
@@ -288,13 +314,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>A dependency version equality constraint.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>A package not published to hackage or stackage.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Dhall can only sort <code>List Natural</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Formatting is also available with the <a href="https://github.com/PanAeon/vscode-dhall-lsp-server">Dhall LSP Server</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>A dependency version equality constraint.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>A package not published to hackage or stackage.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>For cabal, the cabal.config will have to be downloaded to <code>project-stackage/resolver.config</code> and then edited to comment out constraints that would otherwise lead to impossible to solve conflicting constraints because cabal constraints are additive and cannot be overridden.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>The <code>resolver</code> has been deprecated in favour of <code>snapshot</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

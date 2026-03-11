@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title></title>
+<title>Nix – </title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -84,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./templates.html">Nuts and Bolts</a></li><li class="breadcrumb-item"><a href="./nix.html">Nix</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -111,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -196,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nix.html" class="sidebar-item-text sidebar-link">
+  <a href="./nix.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Nix</span></a>
   </div>
 </li>
@@ -218,68 +218,65 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-a-project" id="toc-what-is-a-project" class="nav-link active" data-scroll-target="#what-is-a-project">What is a Project?</a></li>
-  <li><a href="#need" id="toc-need" class="nav-link" data-scroll-target="#need">Need</a></li>
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
-  <li><a href="#what-can-be-configured" id="toc-what-can-be-configured" class="nav-link" data-scroll-target="#what-can-be-configured">What can be Configured</a></li>
-  <li><a href="#testimonials" id="toc-testimonials" class="nav-link" data-scroll-target="#testimonials">Testimonials</a></li>
+  <li><a href="#sha256-map-generation-method" id="toc-sha256-map-generation-method" class="nav-link active" data-scroll-target="#sha256-map-generation-method">SHA256 Map Generation Method</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./templates.html">Nuts and Bolts</a></li><li class="breadcrumb-item"><a href="./nix.html">Nix</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Nix</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<blockquote class="blockquote">
-<p>An “Updo” is a hairstyle and a way of making and <strong>up</strong>grading Haskell projects.</p>
-</blockquote>
-<p>Make projects from packages, versions<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and commits<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<section id="what-is-a-project" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-a-project">What is a Project?</h3>
-<p>A project is a set of packages and other configuration that enable working on those packages together.</p>
-</section>
-<section id="need" class="level3">
-<h3 class="anchored" data-anchor-id="need">Need</h3>
-<p>Updo grew to fill a need after every other way I could find to maintain projects was unsatisfactory for the specific problem I had, herding hundreds of packages and their dependencies into buildable projects over two compiler versions for both cabal and stack.</p>
-</section>
-<section id="goals" class="level3">
-<h3 class="anchored" data-anchor-id="goals">Goals</h3>
-<ol type="1">
-<li>One configuration for multiple project tools; for all of cabal, stack and Haskell.nix.</li>
-<li>Minimize the effort of upgrading to a new GHC version.</li>
-</ol>
-<p>We do this with configuration in <code>.dhall</code> files, makefiles and <code>dhall text</code> templates. We also have some simple Haskell scripts for operations not possible in Dhall like sorting a <code>List Text</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Why Dhall for Configuration?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Dhall has excellent imports and is an intentionally limited typed programming language. We use dhall’s <code>text</code> command to write cabal and stack projects using <a href="https://www.haskellforall.com/2017/06/dhall-is-now-template-engine.html">dhall text templating</a>.</p>
-<p>The <code>dhall</code> executable comes with a <code>format</code> command<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. This helps in the maintenance of the various <code>.dhall</code> files.</p>
-<p>An example of the limits of the language we encountered in Updo is not being able to compare anything but <code>Natural</code> values. Sorting something like <code>List Text</code> is not possible but there is great interop with Haskell so this can be done over there as we do with scripts.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="what-can-be-configured" class="level3">
-<h3 class="anchored" data-anchor-id="what-can-be-configured">What can be Configured</h3>
-<p>Updo is good for project packages, constraints<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, source repository packages<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> and stackage resolver<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. More than this can be added into a project template snippet for free-form content.</p>
-</section>
-<section id="testimonials" class="level3">
-<h3 class="anchored" data-anchor-id="testimonials">Testimonials</h3>
-<blockquote class="blockquote">
-<p>The more I use it, the more I love it as a fast and simple solution for maintaining Haskell projects.</p>
-<p>— <span class="citation" data-cites="philderbeast">@philderbeast</span></p>
-</blockquote>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sha256-map-generation-method" class="level1">
+<h1>SHA256 Map Generation Method</h1>
+<p>With this snippet from <code>project-files.mk</code>, we can switch between two methods of generating <code>ghc-x.y.z.sha256map.nix</code>.</p>
+<pre class="make"><code># How to generate project-nix/ghc-$(GHC_VERSION)/sha256map.nix?
+# This is copied from ghc-$(GHC_VERSION).sha256map.nix.
+#  - false to generate from *.dhall inputs via sha256map.hs.
+#  - true to generate from stack.yaml via sha256map.py.
+SHA256MAP_VIA_PYTHON ?= false
+
+# If true, generate the sha256map from the stack.yaml with python,
+# overriding the recipe for this target.
+ifeq ($(SHA256MAP_VIA_PYTHON), true)
+ghc-$(GHC_VERSION).sha256map.nix: stack.yaml
+⇥ updo/project-nix/sha256map.py &lt;$^ &gt;$@
+endif</code></pre>
+<p>The default is to use the <code>sha256map.hs</code> script to generate it<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<pre><code>$ make -f project-files.mk ghc-x.y.z.sha256map.nix
+echo \
+  '[./project-dhall/ghc-x.y.z/deps-external.dhall
+  , ./project-dhall/ghc-x.y.z/deps-internal.dhall
+  , ./project-dhall/ghc-x.y.z/forks-external.dhall
+  , ./project-dhall/ghc-x.y.z/forks-internal.dhall
+  , ([] : List {loc : Text, tag : Text, sub : List Text})
+  ]' \
+  | ./updo/project-nix/sha256map.hs &gt; ghc-x.y.z.sha256map.nix</code></pre>
+<p>To use the <code>sha256map.py</code> script instead that is much slower:</p>
+<pre><code>$ SHA256MAP_VIA_PYTHON=true \
+  make -f project-files.mk project-nix/ghc-x.y.z/sha256map.nix
+updo/project-nix/sha256map.py &lt;stack.yaml &gt;ghc-x.y.z.sha256map.nix
+mkdir -p project-nix/ghc-x.y.z &amp;&amp; cp ghc-x.y.z.sha256map.nix project-nix/ghc-x.y.z/sha256map.nix
+rm ghc-x.y.z.sha256map.nix
+</code></pre>
+<p>You can <a href="project-nix#readme">read more about Updo Nix</a> and its use with haskell.nix.</p>
 
 
 </section>
@@ -288,13 +285,7 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>A dependency version equality constraint.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>A package not published to hackage or stackage.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Dhall can only sort <code>List Natural</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Formatting is also available with the <a href="https://github.com/PanAeon/vscode-dhall-lsp-server">Dhall LSP Server</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>A dependency version equality constraint.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>A package not published to hackage or stackage.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>For cabal, the cabal.config will have to be downloaded to <code>project-stackage/resolver.config</code> and then edited to comment out constraints that would otherwise lead to impossible to solve conflicting constraints because cabal constraints are additive and cannot be overridden.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Using ghc-x.y.z and lts-m.n in the example output, not the actual GHC version or resolver.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

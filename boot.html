@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title></title>
+<title>Downloading and Setup – </title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -84,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./boot.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./boot.html">Downloading and Setup</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -111,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -126,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link">
+  <a href="./boot.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Downloading and Setup</span></a>
   </div>
 </li>
@@ -218,85 +253,238 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-a-project" id="toc-what-is-a-project" class="nav-link active" data-scroll-target="#what-is-a-project">What is a Project?</a></li>
-  <li><a href="#need" id="toc-need" class="nav-link" data-scroll-target="#need">Need</a></li>
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
-  <li><a href="#what-can-be-configured" id="toc-what-can-be-configured" class="nav-link" data-scroll-target="#what-can-be-configured">What can be Configured</a></li>
-  <li><a href="#testimonials" id="toc-testimonials" class="nav-link" data-scroll-target="#testimonials">Testimonials</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a>
+  <ul class="collapse">
+  <li><a href="#bootstrap-from-hackage" id="toc-bootstrap-from-hackage" class="nav-link" data-scroll-target="#bootstrap-from-hackage">Bootstrap from Hackage</a></li>
+  <li><a href="#bootstrap-from-source" id="toc-bootstrap-from-source" class="nav-link" data-scroll-target="#bootstrap-from-source">Bootstrap from Source</a></li>
+  </ul></li>
+  <li><a href="#makefiles" id="toc-makefiles" class="nav-link" data-scroll-target="#makefiles">Makefiles</a>
+  <ul class="collapse">
+  <li><a href="#version-variables" id="toc-version-variables" class="nav-link" data-scroll-target="#version-variables">VERSION Variables</a></li>
+  </ul></li>
+  <li><a href="#generate-projects" id="toc-generate-projects" class="nav-link" data-scroll-target="#generate-projects">Generate Projects</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./boot.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./boot.html">Downloading and Setup</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Downloading and Setup</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<blockquote class="blockquote">
-<p>An “Updo” is a hairstyle and a way of making and <strong>up</strong>grading Haskell projects.</p>
-</blockquote>
-<p>Make projects from packages, versions<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and commits<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<section id="what-is-a-project" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-a-project">What is a Project?</h3>
-<p>A project is a set of packages and other configuration that enable working on those packages together.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p><a href="https://www.gnu.org/software/make/">Make</a> and <a href="https://dhall-lang.org/">Dhall</a> are prerequisites.</p>
 </section>
-<section id="need" class="level3">
-<h3 class="anchored" data-anchor-id="need">Need</h3>
-<p>Updo grew to fill a need after every other way I could find to maintain projects was unsatisfactory for the specific problem I had, herding hundreds of packages and their dependencies into buildable projects over two compiler versions for both cabal and stack.</p>
-</section>
-<section id="goals" class="level3">
-<h3 class="anchored" data-anchor-id="goals">Goals</h3>
-<ol type="1">
-<li>One configuration for multiple project tools; for all of cabal, stack and Haskell.nix.</li>
-<li>Minimize the effort of upgrading to a new GHC version.</li>
-</ol>
-<p>We do this with configuration in <code>.dhall</code> files, makefiles and <code>dhall text</code> templates. We also have some simple Haskell scripts for operations not possible in Dhall like sorting a <code>List Text</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>Updo is installed into your project’s <code>updo</code> directory but this is not typically done manually. Its scratch directory is <code>.updo</code>. You’ll want to have source control ignore both of these directories.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'.updo'</span> <span class="op">&gt;&gt;</span> .gitignore</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'updo'</span> <span class="op">&gt;&gt;</span> .gitignore</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Updo can bootstrap itself with a makefile recipe. We recommend putting one of these <code>updo/Makefile</code> file target recipes into <code>project-bootstrap.mk</code>. We supply scripts for setting this up. Whichever recipe you choose, you should include <code>project-bootstrap.mk</code> in <code>project-files.mk</code>. That way if the <code>updo</code> directory doesn’t yet exist, it will be downloaded to the expected location automatically.</p>
+<section id="bootstrap-from-hackage" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrap-from-hackage">Bootstrap from Hackage</h3>
+<p>Run the script <a href="project-bootstrap-hackage.sh">project-bootstrap-hackage.sh</a> to write <code>project-bootstrap.mk</code> that will bootstrap Updo from Hackage.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Why Dhall for Configuration?
+<span class="screen-reader-only">Caution</span>Manually Fetching Updo from Hackage with Cabal
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Dhall has excellent imports and is an intentionally limited typed programming language. We use dhall’s <code>text</code> command to write cabal and stack projects using <a href="https://www.haskellforall.com/2017/06/dhall-is-now-template-engine.html">dhall text templating</a>.</p>
-<p>The <code>dhall</code> executable comes with a <code>format</code> command<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. This helps in the maintenance of the various <code>.dhall</code> files.</p>
-<p>An example of the limits of the language we encountered in Updo is not being able to compare anything but <code>Natural</code> values. Sorting something like <code>List Text</code> is not possible but there is great interop with Haskell so this can be done over there as we do with scripts.</p>
+<p>The command <code>cabal get</code> can also unpack package sources from Hackage but doesn’t support unpacking to a specific directory that does not match the package name with a version suffix.</p>
+<pre class="pre"><code>$ cabal get updo
+Downloading  updo-1.0.0
+Downloaded   updo-1.0.0
+Unpacking to updo-1.0.0/</code></pre>
+<p>The <code>--destdir</code> option cannot be used to unpack a package to a specific directory. It controls where the unpacked package’s parent directory is.</p>
+<pre class="pre"><code>$ cabal get --help
+Download/Extract a package's source code (repository).
+...
+Flags for get:
+ -d PATH or -dPATH, --destdir=PATH
+                                Where to place the package source, defaults to
+                                the current directory.
+
+$ cabal get updo --destdir=updo
+Unpacking to updo/updo-1.0.0/</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Manually Fetching Updo from Hackage with Stack
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The command <code>stack unpack</code> can also unpack package sources from Hackage but doesn’t support unpacking to a specific directory that does not match the package name with a version suffix.</p>
+<pre class="pre"><code># Manually fetching Updo from Hackage takes about 30s first time around
+$ stack unpack updo
+Updating the package index.
+Selected mirror https://hackage.haskell.org/
+Downloading timestamp
+Downloading snapshot
+Updating index
+Waiting to acquire cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock
+Acquired cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock
+Released cache lock on /home/.../.stack/pantry/hackage/hackage-security-lock
+Updated package index downloaded
+Calculating hashes to check for hackage-security rebases or filesystem changes
+Updating preexisting cache, should be quick
+Populating cache from file size 1004695040, hash 3d9da2...
+Populating package index cache ...
+Package index cache populated
+Unpacked updo (from Hackage) to updo-1.0.0/.</code></pre>
+<p>The <code>--to</code> option cannot be used to unpack a package to a specific directory. It controls where the unpacked package’s parent directory is.</p>
+<pre><code>$ stack unpack --help
+...
+Available options:
+  --to DIR                 Optionally, a directory to unpack into. A target will
+                           be unpacked into a subdirectory.
+
+$ stack unpack updo --to updo
+...
+Unpacked updo (from Hackage) to updo/updo-1.0.0/.</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Alternative Recipe to Install Updo Executables
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre class="make"><code>updo/Makefile:
+⇥ (info Referencing Updo at $(UPDO_HACKAGE_URL))
+⇥ rm -rf updo
+⇥ curl -sSL ${UPDO_ARCHIVE} | tar -xz
+⇥ cd updo-${UPDO_VERSION}
+⇥ stack install # or cabal install
+⇥ cd -
+⇥ mv updo-* updo</code></pre>
 </div>
 </div>
 </div>
 </section>
-<section id="what-can-be-configured" class="level3">
-<h3 class="anchored" data-anchor-id="what-can-be-configured">What can be Configured</h3>
-<p>Updo is good for project packages, constraints<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, source repository packages<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> and stackage resolver<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. More than this can be added into a project template snippet for free-form content.</p>
+<section id="bootstrap-from-source" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrap-from-source">Bootstrap from Source</h3>
+<p>Run the script <a href="project-bootstrap-repo.sh">project-bootstrap-repo.sh</a> to write <code>project-bootstrap.mk</code> that will bootstrap Updo from a fixed revision from its source code Git repository.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Manually Fetching Updo from Source Code Repository via Hackage with Cabal
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The command <code>cabal get --source-repository=head</code> can get sources from the source code repository of the package known to Hackage. This clones the source repository to a directory with the same name as the package.</p>
+<pre class="pre"><code>$ cabal get --help
+Download/Extract a package's source code (repository).
+...
+Flags for get:
+ -s[[head|this|...]], --source-repository[=[head|this|...]]
+                                Copy the package's source repository (ie git
+                                clone, darcs get, etc as appropriate).</code></pre>
+<pre class="pre"><code>$ cabal get updo --source-repository=head
+cabal get updo --source-repository=head
+Cloning into 'updo'...
+remote: Enumerating objects: 1175, done.
+remote: Counting objects: 100% (208/208), done.
+remote: Compressing objects: 100% (99/99), done.
+remote: Total 1175 (delta 157), reused 150 (delta 107), pack-reused 967 (from 2)
+Receiving objects: 100% (1175/1175), 761.45 KiB | 4.01 MiB/s, done.
+Resolving deltas: 100% (652/652), done.</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Alternative Recipe to Bootstrap from a Repository Branch
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre class="make"><code>updo/Makefile:
+⇥ rm -rf updo
+⇥ git clone --depth=1 --branch main git@github.com:cabalism/updo
+⇥ chmod +x $$(grep -RIl '^#!' updo)</code></pre>
+</div>
+</div>
+</div>
 </section>
-<section id="testimonials" class="level3">
-<h3 class="anchored" data-anchor-id="testimonials">Testimonials</h3>
-<blockquote class="blockquote">
-<p>The more I use it, the more I love it as a fast and simple solution for maintaining Haskell projects.</p>
-<p>— <span class="citation" data-cites="philderbeast">@philderbeast</span></p>
-</blockquote>
+</section>
+<section id="makefiles" class="level2">
+<h2 class="anchored" data-anchor-id="makefiles">Makefiles</h2>
+<p>In the root of your project, in addition to <code>project-bootstrap.mk</code>, add two other makefiles.</p>
+<pre><code>.
+├── project-bootstrap.mk
+├── project-files.mk
+└── project-versions.mk</code></pre>
+<section id="version-variables" class="level3">
+<h3 class="anchored" data-anchor-id="version-variables">VERSION Variables</h3>
+<p>In <code>project-versions.mk</code> set variables for GHC and STACKAGE.</p>
+<pre class="make"><code>GHC_VERSION := x.y.z
+STACKAGE_VERSION := lts-j.k</code></pre>
+<p>Here is a basic set up for <code>project-files.mk</code>:</p>
+<pre class="make"><code>include project-bootstrap.mk
+include project-versions.mk
+include updo/Makefile</code></pre>
+</section>
+</section>
+<section id="generate-projects" class="level2">
+<h2 class="anchored" data-anchor-id="generate-projects">Generate Projects</h2>
+<p>Now you can generate both <code>cabal.project</code> and <code>stack.yaml</code> project files by running:</p>
+<pre class="pre"><code>$ make -f project-files.mk</code></pre>
+<p>If you only want to generate a specific kind of project file, you can specify the target file explicitly, adding <code>cabal.project</code>, <code>stack.yaml</code>, or <code>stack.yaml.lock</code> as appropriate.</p>
+<p>If you are converting an existing project to use Updo, try to recreate the existing project structure but with Updo generating the project file.</p>
 
 
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>A dependency version equality constraint.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>A package not published to hackage or stackage.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Dhall can only sort <code>List Natural</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Formatting is also available with the <a href="https://github.com/PanAeon/vscode-dhall-lsp-server">Dhall LSP Server</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>A dependency version equality constraint.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>A package not published to hackage or stackage.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>For cabal, the cabal.config will have to be downloaded to <code>project-stackage/resolver.config</code> and then edited to comment out constraints that would otherwise lead to impossible to solve conflicting constraints because cabal constraints are additive and cannot be overridden.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
