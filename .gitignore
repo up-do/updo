@@ -43,3 +43,4 @@ css/
 *.tgz
 .yarn
 .vscode
+.quarto
