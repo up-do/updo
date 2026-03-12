@@ -179,7 +179,7 @@ In `project-versions.mk` set variables for GHC and STACKAGE.
 
 ```make
 GHC_VERSION := x.y.z
-STACKAGE_VERSION := lts-j.k
+STACKAGE_VERSION := lts-u.v
 ```
 
 Here is a basic set up for `project-files.mk`:

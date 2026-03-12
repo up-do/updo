@@ -2,16 +2,23 @@
 title: "Upgrading"
 ---
 
-# Upgrading a Project
+::: {.callout-note}
+As notation we're using `x.y.z` to denote a version of GHC and `x'.y'.z'` to
+denote a later version of GHC. Likewise for STACKAGE, we're using `u.v` to
+denote a version and `u'.v'` to denote a later version[^stackage-version].
+
+[^stackage-version]: Stackage uses "resolver" or "snapshot" to refer to a
+particular version of a curated package set.
+:::
 
 ### GHC Upgrade
 For a GHC compiler upgrade, add another folder to `project-dhall` for the
-upgrade from `ghc-u.v.w` to `ghc-x.y.z`:
+upgrade from `ghc-x.y.z` to `ghc-x'.y'.z'`:
 
 ```
 project-dhall
-├── ghc-u.v.w
 ├── ghc-x.y.z
+├── ghc-x'.y'.z'
 ├── pkgs
 ├── pkg-groups.dhall        ▨ List Text
 └── pkgs-upgrade-todo.dhall ▨ List Text

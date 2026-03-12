@@ -25,7 +25,7 @@ endif
 The default is to use the `sha256map.hs` script to generate
 it[^replacing_versions]:
 
-[^replacing_versions]: Using ghc-x.y.z and lts-m.n in the example output, not
+[^replacing_versions]: Using ghc-x.y.z and lts-u.v in the example output, not
   the actual GHC version or resolver.
 
 ```
