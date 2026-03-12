@@ -15,9 +15,20 @@ In the root of your project, add two files.
 In `project-versions.mk` set variables for GHC and STACKAGE.
 
 ```make
-GHC_VERSION := u.v.w
-STACKAGE_VERSION := lts-j.k
+GHC_VERSION := x.y.z
+STACKAGE_VERSION := lts-u.v
 ```
+
+::: {.callout-tip}
+If there's not a matching version of stackage, set the resolver[^resolver-deprecated] to match to the
+GHC version:
+
+```make
+STACKAGE_VERSION := ghc-x.y.z
+```
+[^resolver-deprecated]: The `resolver` has been deprecated in favour of `snapshot`.
+:::
+
 
 Here is a basic set up for `project-files.mk`:
 
@@ -26,23 +37,16 @@ include project-versions.mk
 include updo/Makefile
 ```
 
+::: {.callout-caution collapse="true"}
+### UPGRADE Variables
 While doing an upgrade, you can use `UPGRADE` variables to specify upgrade
 versions for GHC and STACKAGE.
 
-::: {.callout-note}
-If there's not a matching version of stackage, set the resolver[^resolver-deprecated] to match to the
-GHC upgrade version:
-
 ```make
-STACKAGE_UPGRADE := ghc-x.y.z
+GHC_UPGRADE := x'.y'.z'
+STACKAGE_UPGRADE := lts-u'.v'
 ```
-[^resolver-deprecated]: The `resolver` has been deprecated in favour of `snapshot`.
 :::
-
-```make
-GHC_UPGRADE := x.y.z
-STACKAGE_UPGRADE := lts-m.n
-```
 
 ### Canonical Targets
 
