@@ -35,69 +35,42 @@ CABAL_VIA ?= dhall2config
 #  - project-sha256maps
 include updo/temp/Makefile
 include updo/project-skeleton/Makefile
-include updo/project-dhall/Makefile
-include updo/project-dhall2config/Makefile
+include updo/project-dhall/dhall2config.mk
+include updo/project-version/dhall2stack.mk
+include updo/project-version/dhall2cabal.mk
+include updo/project-version/dhall2config.mk
 include updo/project-nix/Makefile
-
-# Project (and related sha256map) files used in production, not in GHC upgrade.
-.PHONY: projects
-projects: \
-  ghc-$(GHC_VERSION).sha256map.nix \
-  stack.yaml \
-  stack.yaml.lock \
-  cabal.project
-
-.PHONY: upgrade-projects
-upgrade-projects: \
-  project-nix/ghc-$(GHC_UPGRADE)/sha256map.nix \
-  stack.upgrade.yaml \
-  stack.upgrade.yaml.lock \
-  cabal.upgrade.project \
-  ghc-$(GHC_UPGRADE).dhall2stack.yaml \
-  ghc-$(GHC_UPGRADE).dhall2stack.yaml.lock \
-  ghc-$(GHC_UPGRADE).dhall2cabal.project
-
-# All the kinds of project files we might want to generate.
-#
-# These are alternative methods we could include but don't.
-#  - dhall2yaml2stack-projects
-.PHONY: all-possible-projects
-all-possible-projects: \
-  projects \
-  dhall2config-projects \
-  dhall2cabal-projects \
-  dhall2stack-projects
+include updo/ghc-version-projects.mk
+ifneq ($(GHC_UPGRADE),)
+ifeq ($(GHC_VERSION),$(GHC_UPGRADE))
+$(warning GHC_VERSION=$(GHC_VERSION))
+$(warning GHC_UPGRADE=$(GHC_UPGRADE))
+$(warning If these variables were allowed to be equal, we would see pairs of warnings:)
+$(warning - warning: overriding recipe for target)
+$(warning - warning: ignoring old recipe for target)
+$(warning GHC_UPGRADE can be undefined and should be undefined when upgrading is finished.)
+$(error Targets are not distinct)
+endif
+include updo/project-upgrade/dhall2stack.mk
+include updo/project-upgrade/dhall2cabal.mk
+include updo/project-upgrade/dhall2config.mk
+include updo/ghc-upgrade-projects.mk
+endif
 
 .PHONY: clean
 clean:
-	rm -f ghc-*.stack.* ghc-*.dhall2config.* ghc-*.dhall2cabal.* ghc-*.dhall2stack.* ghc-*.stack2cabal.* ghc-*.cabal2stack.* ghc-*.dhall2yaml2stack.* ghc-*.sha256map.nix
+	rm -f \
+	  ghc-*.stack.* \
+	  ghc-*.dhall2config.* \
+	  ghc-*.dhall2cabal.* \
+	  ghc-*.dhall2stack.* \
+	  ghc-*.stack2cabal.* \
+	  ghc-*.cabal2stack.* \
+	  ghc-*.dhall2yaml2stack.* \
+	  ghc-*.sha256map.nix
 
-.PHONY: cabal
-cabal: \
-  ghc-$(GHC_VERSION).$(CABAL_VIA).project \
-  ghc-$(GHC_UPGRADE).$(CABAL_VIA).project
-
-.PHONY: stack
-stack: \
-  ghc-$(GHC_VERSION).$(STACK_VIA).yaml \
-  ghc-$(GHC_VERSION).$(STACK_VIA).yaml.lock \
-  ghc-$(GHC_UPGRADE).$(STACK_VIA).yaml \
-  ghc-$(GHC_UPGRADE).$(STACK_VIA).yaml.lock
-
-cabal.project: ghc-$(GHC_VERSION).$(CABAL_VIA).project
-	cp $^ $@
-
-cabal.upgrade.project: ghc-$(GHC_UPGRADE).$(CABAL_VIA).project
-	cp $^ $@
-
-stack.yaml: ghc-$(GHC_VERSION).$(STACK_VIA).yaml
-	cp $< $@
-
-stack.upgrade.yaml: ghc-$(GHC_UPGRADE).$(STACK_VIA).yaml
-	cp $< $@
-
-stack.yaml.lock: stack.yaml
-	stack build --test --no-run-tests --bench --no-run-benchmarks --dry-run --stack-yaml $<
-
-stack.upgrade.yaml.lock: stack.upgrade.yaml
-	stack build --test --no-run-tests --bench --no-run-benchmarks --dry-run --stack-yaml $<
+# Generating a ghc-x.y.z prefixed stack lock file is the same recipe for all GHC
+# versions, irrespective of whether it is an upgrade project or not.
+ghc-%.dhall2stack.yaml.lock: ghc-%.dhall2stack.yaml
+	stack build  --test --no-run-tests --bench --no-run-benchmarks --dry-run --stack-yaml $<
+	

@@ -1,13 +1,8 @@
 ifeq ($(PKG_GROUPS_HS_EXE), true)
 PKG_GROUPS_HS := updo-pkg-groups
 else
-PKG_GROUPS_HS := ./updo/project-dhall2config/pkg-groups.hs
+PKG_GROUPS_HS := ./updo/project-dhall/pkg-groups.hs
 endif
-
-.PHONY: dhall2config-projects
-dhall2config-projects: \
-  ghc-$(GHC_VERSION).dhall2config.project \
-  ghc-$(GHC_UPGRADE).dhall2config.project
 
 project-cabal/pkgs.config: \
   updo/text-templates/cabal/pkg-groups.dhall \
@@ -56,25 +51,3 @@ project-cabal/ghc-%.config: \
 	echo "let f = ./$< in f.repo-items ./$(UPDO_TMP)/ghc-$*.dhall" \
 	| dhall text --output $(UPDO_TMP)/ghc-$*.config
 	[ ! -s $(UPDO_TMP)/ghc-$*.config ] || cp $(UPDO_TMP)/ghc-$*.config $@
-
-ghc-$(GHC_VERSION).dhall2config.project: \
-  project-dhall/ghc-$(GHC_VERSION)/text-templates/dhall2config.dhall \
-  updo/text-templates/dhall2config.dhall \
-  project-cabal/ghc-$(GHC_VERSION)/constraints.config \
-  project-cabal/ghc-$(GHC_VERSION)/deps-external.config \
-  project-cabal/ghc-$(GHC_VERSION)/deps-internal.config \
-  project-cabal/ghc-$(GHC_VERSION)/forks-external.config \
-  project-cabal/ghc-$(GHC_VERSION)/forks-internal.config \
-  project-cabal/pkgs.config
-	echo './$< "$(STACKAGE_VERSION)" "$(GHC_VERSION)"' | dhall text --output $@
-
-ghc-$(GHC_UPGRADE).dhall2config.project: \
-  project-dhall/ghc-$(GHC_UPGRADE)/text-templates/dhall2config.dhall \
-  updo/text-templates/dhall2config.dhall \
-  project-cabal/ghc-$(GHC_UPGRADE)/constraints.config \
-  project-cabal/ghc-$(GHC_UPGRADE)/deps-external.config \
-  project-cabal/ghc-$(GHC_UPGRADE)/deps-internal.config \
-  project-cabal/ghc-$(GHC_UPGRADE)/forks-external.config \
-  project-cabal/ghc-$(GHC_UPGRADE)/forks-internal.config \
-  project-cabal/pkgs.config
-	echo './$< "$(STACKAGE_UPGRADE)" "$(GHC_UPGRADE)"' | dhall text --output $@

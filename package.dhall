@@ -18,7 +18,6 @@
   , "**/*.dhall"
   , "**/Makefile"
   , "project-dhall/**/*hs"
-  , "project-dhall2config/**/*hs"
   , "project-nix/**/*hs"
   , "**/*.py"
   , "**/*.sh"
@@ -36,7 +35,7 @@
   { updo-pkgs-sorted.main = "project-dhall/pkgs-sorted.hs"
   , updo-pkgs-upgrade-done.main = "project-dhall/pkgs-upgrade-done.hs"
   , updo-pkgs-upgrade-partition.main = "project-dhall/pkgs-upgrade-partition.hs"
-  , updo-pkg-groups.main = "project-dhall2config/pkg-groups.hs"
+  , updo-pkg-groups.main = "project-dhall/pkg-groups.hs"
   , updo-sha256map.main = "project-nix/sha256map.hs"
   }
 }
