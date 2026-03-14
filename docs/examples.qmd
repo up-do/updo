@@ -12,34 +12,34 @@ format:
 Here you'll find examples of projects converted to use Updo to configure,
 generate and sometimes upgrade projects.
 
-## Conversions
-
-These Haskell projects have been upgraded to a published version of Updo, e.g.
-`updo-1.0.0`, or have been upgraded to development version of Updo, identified
-with a commit hash.
-
-| | Converted | Upstream | Updo Version | Updo Hash | When |
-| :-: | :- | :- | -:| :-: | :-: |
-| <img src="https://avatars.githubusercontent.com/u/450574?s=48&v=4" alt="cabal" width="24px" /> | [cabal](https://github.com/up-do/cabal) | [haskell/cabal](https://github.com/haskell/cabal) | `1.0.0` | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-11-30 |
-| <img src="https://avatars.githubusercontent.com/u/10862527?s=200&v=4" alt="clash" width="24px" /> | [clash-compiler](https://github.com/up-do/clash-compiler) | [clash-lang/clash-compiler](https://github.com/clash-lang/clash-compiler) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/848102?s=48&v=4" alt="copilot" width="24px" /> | [copilot](https://github.com/up-do/copilot) | [Copilot-Language/copilot](https://github.com/Copilot-Language/copilot) | | [a86c16](https://github.com/cabalism/updo/commit/a86c165687b2b5e8251265418a9c4181c6a651a0) | 2023-12-24 |
-| <img src="https://avatars.githubusercontent.com/u/43830688?s=48&v=4" alt="google" width="24px" /> | [dex-lang](https://github.com/up-do/dex-lang) | [google-research/dex-lang](https://github.com/google-research/dex-lang) | `1.0.0` | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/20698192?s=48&v=4" alt="elm" width="24px" /> | [elm-compiler](https://github.com/up-do/elm-compiler) | [elm/compiler](https://github.com/elm/compiler) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/29549894?s=48&v=4" alt="futhark" width="24px" /> | [futhark](https://github.com/up-do/futhark) | [diku-dk/futhark](https://github.com/diku-dk/futhark) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/6577959?s=48&v=4" alt="haskell" width="24px" /> | [haskell.org](https://github.com/up-do/www.haskell.org) | [haskell-infra/www.haskell.org](https://github.com/haskell-infra/www.haskell.org) | | [a86c16](https://github.com/cabalism/updo/commit/a86c165687b2b5e8251265418a9c4181c6a651a0) | 2024-06-17 |
-| <img src="https://avatars.githubusercontent.com/u/10144?s=48&v=4" alt="simonmichael" width="24px" /> | [hledger](https://github.com/up-do/hledger) | [simonmichael/hledger](https://github.com/simonmichael/hledger) | | [a86c16](https://github.com/cabalism/updo/commit/a86c165687b2b5e8251265418a9c4181c6a651a0) | 2024-05-18 |
-| <img src="https://avatars.githubusercontent.com/u/31416286?s=48&v=4" alt="mercury" width="24px" /> | [hlint-plugin](https://github.com/up-do/hlint-plugin) | [MercuryTechnologies/hlint-plugin](https://github.com/MercuryTechnologies/hlint-plugin) | `1.0.0` | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/49000?s=48&v=4" alt="gelisam" width="24px" /> | [klister](https://github.com/up-do/klister) | [gelisam/klister](https://github.com/gelisam/klister) | | [a86c16](https://github.com/up-do/klister/commit/118996d6ed534ba52fbf799333d48a490cdb46aa) | 2024-03-27 |
-| <img src="https://raw.githubusercontent.com/ucsd-progsys/liquidhaskell/refs/heads/develop/resources/icon.svg" alt="liquidhaskell" width="20px" /> | [liquid-fixpoint](https://github.com/up-do/liquid-fixpoint) | [ucsd-progsys/liquid-fixpoint](https://github.com/ucsd-progsys/liquid-fixpoint) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2024-05-25 |
-| <img src="https://raw.githubusercontent.com/ucsd-progsys/liquidhaskell/refs/heads/develop/resources/icon.svg" alt="liquidhaskell" width="20px" /> | [liquidhaskell](https://github.com/up-do/liquidhaskell) | [ucsd-progsys/liquidhaskell](https://github.com/ucsd-progsys/liquidhaskell) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/3044?s=48&v=4" alt="jgm" width="24px" /> | [pandoc](https://github.com/up-do/pandoc) | [jgm/pandoc](https://github.com/jgm/pandoc) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/10633049?s=48&v=4" alt="stack" width="24px" /> | [stack](https://github.com/up-do/stack) | [commercialhaskell/stack](https://github.com/commercialhaskell/stack) | `1.0.0` | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://gitlab.com/uploads/-/system/group/avatar/8717961/tahoe-logo.png?width=24" alt="tahoe-lafs" > | [tahoe](https://github.com/up-do/tahoe) | [tahoe-lafs/tahoe-s3](https://gitlab.com/tahoe-lafs/tahoe-s3) | | [a86c16](https://github.com/cabalism/updo/commit/a86c165687b2b5e8251265418a9c4181c6a651a0) | 2024-10-01 |
-| <img src="https://avatars.githubusercontent.com/u/7087133?s=48&v=4" alt="unison" width="24px" /> | [unison](https://github.com/up-do/unison/) | [unisonweb/unison](https://github.com/unisonweb/unison) | | [cdb06e](https://github.com/cabalism/updo/commit/cdb06ebebaf6b8739e900780bc317cec3cac2d24) | 2023-12-06 |
-| <img src="https://avatars.githubusercontent.com/u/930379?s=48&v=4" alt="yesod-persistent" width="24px" /> | [yesod-persistent](https://github.com/up-do/persistent) | [yesodweb/persistent](https://github.com/yesodweb/persistent) | | [60545b](https://github.com/cabalism/updo/commit/60545b108b7a6a2f802ec7a161aa4b9eb7441baf) | 2023-12-05 |
-| <img src="https://avatars.githubusercontent.com/u/930379?s=48&v=4" alt="yesod" width="24px" /> | [yesod](https://github.com/up-do/yesod) | [yesodweb/yesod](https://github.com/yesodweb/yesod) | | [d5de60](https://github.com/cabalism/updo/commit/d5de6070bed90c3c1a92d3a976998fcf847d77af) | 2023-12-06 |
+| | Converted | Upstream | Projects |
+| :-: | :- | :- | -:|
+| <img src="https://avatars.githubusercontent.com/u/450574?s=48&v=4" alt="cabal" width="24px" /> | [cabal](https://github.com/up-do/cabal) | [haskell/cabal](https://github.com/haskell/cabal) | <samp>&ast; &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/10862527?s=200&v=4" alt="clash" width="24px" /> | [clash-compiler](https://github.com/up-do/clash-compiler) | [clash-lang/clash-compiler](https://github.com/clash-lang/clash-compiler) | <samp>&uarr; &ast; &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/848102?s=48&v=4" alt="copilot" width="24px" /> | [copilot](https://github.com/up-do/copilot) | [Copilot-Language/copilot](https://github.com/Copilot-Language/copilot) | <samp>&check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/43830688?s=48&v=4" alt="google" width="24px" /> | [dex-lang](https://github.com/up-do/dex-lang) | [google-research/dex-lang](https://github.com/google-research/dex-lang) | <samp>&ast; &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/20698192?s=48&v=4" alt="elm" width="24px" /> | [elm-compiler](https://github.com/up-do/elm-compiler) | [elm/compiler](https://github.com/elm/compiler) | <samp>&check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/29549894?s=48&v=4" alt="futhark" width="24px" /> | [futhark](https://github.com/up-do/futhark) | [diku-dk/futhark](https://github.com/diku-dk/futhark) | <samp>&uarr; &ast; &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/6577959?s=48&v=4" alt="haskell" width="24px" /> | [haskell.org](https://github.com/up-do/www.haskell.org) | [haskell-infra/www.haskell.org](https://github.com/haskell-infra/www.haskell.org) | <samp>&uarr; <span style="color:transparent">&ast;</span> &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/10144?s=48&v=4" alt="simonmichael" width="24px" /> | [hledger](https://github.com/up-do/hledger) | [simonmichael/hledger](https://github.com/simonmichael/hledger) | <samp>&commat; <span style="color:transparent">&uarr; &ast;</span> &cross;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/31416286?s=48&v=4" alt="mercury" width="24px" /> | [hlint-plugin](https://github.com/up-do/hlint-plugin) | [MercuryTechnologies/hlint-plugin](https://github.com/MercuryTechnologies/hlint-plugin) | <samp>&uarr; &ast; &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/49000?s=48&v=4" alt="gelisam" width="24px" /> | [klister](https://github.com/up-do/klister) | [gelisam/klister](https://github.com/gelisam/klister) | <samp>&uarr; &ast; &check;</samp> |
+| <img src="https://raw.githubusercontent.com/ucsd-progsys/liquidhaskell/refs/heads/develop/resources/icon.svg" alt="liquidhaskell" width="20px" /> | [liquid-fixpoint](https://github.com/up-do/liquid-fixpoint) | [ucsd-progsys/liquid-fixpoint](https://github.com/ucsd-progsys/liquid-fixpoint) | <samp>&ast; &check;</samp> |
+| <img src="https://raw.githubusercontent.com/ucsd-progsys/liquidhaskell/refs/heads/develop/resources/icon.svg" alt="liquidhaskell" width="20px" /> | [liquidhaskell](https://github.com/up-do/liquidhaskell) | [ucsd-progsys/liquidhaskell](https://github.com/ucsd-progsys/liquidhaskell) | <samp>&uarr; &ast; &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/3044?s=48&v=4" alt="jgm" width="24px" /> | [pandoc](https://github.com/up-do/pandoc) | [jgm/pandoc](https://github.com/jgm/pandoc) | <samp>&ast; &check;</samp>|
+| <img src="https://avatars.githubusercontent.com/u/10633049?s=48&v=4" alt="stack" width="24px" /> | [stack](https://github.com/up-do/stack) | [commercialhaskell/stack](https://github.com/commercialhaskell/stack) | <samp>&uarr; &ast; &check;</samp> |
+| <img src="https://gitlab.com/uploads/-/system/group/avatar/8717961/tahoe-logo.png?width=24" alt="tahoe-lafs" > | [tahoe](https://github.com/up-do/tahoe) | [tahoe-lafs/tahoe-s3](https://gitlab.com/tahoe-lafs/tahoe-s3) | <samp>&uarr; <span style="color:transparent">&ast;</span> &check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/7087133?s=48&v=4" alt="unison" width="24px" /> | [unison](https://github.com/up-do/unison/) | [unisonweb/unison](https://github.com/unisonweb/unison) | <samp>&check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/930379?s=48&v=4" alt="yesod-persistent" width="24px" /> | [yesod-persistent](https://github.com/up-do/persistent) | [yesodweb/persistent](https://github.com/yesodweb/persistent) | <samp>&check;</samp> |
+| <img src="https://avatars.githubusercontent.com/u/930379?s=48&v=4" alt="yesod" width="24px" /> | [yesod](https://github.com/up-do/yesod) | [yesodweb/yesod](https://github.com/yesodweb/yesod) | <samp>&check;</samp> |
 
 : Forked Repositories with Projects generated by Updo {.striped .hover}
+
+<span style="display:inline-block;width:1em"><samp>&commat;</samp></span> Generated projects are `ghc-x.y.z` prefixed.  
+<span style="display:inline-block;width:1em"><samp>&uarr;</samp></span> Has upgrade projects, `cabal.upgrade.project` or `stack.upgrade.yaml`.  
+<span style="display:inline-block;width:1em"><samp>&ast;</samp></span> The `cabal.project` has imports and was generated with `dhall2config`.  
+<span style="display:inline-block;width:1em"><samp>&check;</samp></span> Both `cabal.project` and `stack.yaml` are generated.  
+<span style="display:inline-block;width:1em"><samp>&cross;</samp></span> Original `cabal.project` and `stack.yaml` are preserved and not generated.  
 
 ## Proposed
 
