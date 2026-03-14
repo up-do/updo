@@ -24,6 +24,7 @@ website:
         - targets.qmd
         - gotchas.qmd
         - nix.qmd
+      - href: examples.qmd
       - href: acks.qmd
 
 format:
