@@ -65,8 +65,4 @@ another project.
       with development shifted to
       [github/stack-graphs](https://github.com/github/stack-graphs), a rust
       project.
-[^3]: Idris has [moved on from Haskell](https://github.com/idris-lang/Idris-dev/tree/master#status).
-      > This is Idris 1, implemented in Haskell. Idris 1 is not actively
-      > worked on anymore.
-      > [Idris 2](https://github.com/idris-lang/Idris2) is the next generation
-      > of Idris, and where primary development happens.
+[^3]: Idris has [moved on from Haskell](https://github.com/idris-lang/Idris-dev/tree/master#status), "Idris 1, implemented in Haskell ... is not actively worked on anymore"
