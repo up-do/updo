@@ -1,5 +1,12 @@
-#!/usr/bin/env stack
--- stack script --resolver=lts-18.27 --package=base --package=dhall --package=text
+#!/usr/bin/env cabal
+{-
+cabal:
+  build-depends:
+      base
+    , dhall
+    , text
+-}
+
 {-# LANGUAGE ScopedTypeVariables #-}
 
 -- | Description: The difference between all packages and those in the todo

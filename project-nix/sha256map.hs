@@ -1,5 +1,15 @@
-#!/usr/bin/env stack
--- stack script --no-nix-pure --resolver=lts-18.27 --package=aeson --package=base --package=dhall --package=text --package=turtle --package=utf8-string
+#!/usr/bin/env cabal
+{-
+cabal:
+  build-depends:
+      aeson
+    , base
+    , dhall
+    , text
+    , turtle
+    , utf8-string
+-}
+
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
