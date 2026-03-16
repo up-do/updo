@@ -1,5 +1,13 @@
-#!/usr/bin/env stack
--- stack script --resolver=lts-18.27 --package=base --package=dhall --package=filepath --package=text
+#!/usr/bin/env cabal
+{-
+cabal:
+  build-depends:
+      base
+    , dhall
+    , filepath
+    , text
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
