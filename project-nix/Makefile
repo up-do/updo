@@ -6,10 +6,6 @@ else
 SHA256MAP_HS := ./updo/project-nix/sha256map.hs
 endif
 
-project-sha256maps: \
-  ghc-$(GHC_VERSION).sha256map.nix \
-  ghc-$(GHC_UPGRADE).sha256map.nix
-
 ghc-%.sha256map.nix: \
   $(UPDO_TMP)/ghc-%/deps-external.dhall \
   $(UPDO_TMP)/ghc-%/deps-internal.dhall \
