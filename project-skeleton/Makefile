@@ -13,36 +13,36 @@ project-dhall/pkgs-upgrade-todo.dhall: \
   updo/project-skeleton/pkgs-upgrade-todo.dhall
 	[ -e $@ ] || cp $< $@
 
-project-dhall/ghc-$(GHC_VERSION)/text-templates/cabal-snippet.dhall: \
+project-dhall/ghc-%/text-templates/cabal-snippet.dhall: \
   updo/project-skeleton/ghc-x.y.z/text-templates/cabal-snippet.dhall
-	mkdir -p project-dhall/ghc-$(GHC_VERSION)/text-templates
+	mkdir -p project-dhall/ghc-$*/text-templates
 	[ -e $@ ] || cp $< $@
 
-project-dhall/ghc-$(GHC_VERSION)/text-templates/stack-snippet.dhall: \
+project-dhall/ghc-%/text-templates/stack-snippet.dhall: \
   updo/project-skeleton/ghc-x.y.z/text-templates/stack-snippet.dhall
-	mkdir -p project-dhall/ghc-$(GHC_VERSION)/text-templates
+	mkdir -p project-dhall/ghc-$*/text-templates
 	[ -e $@ ] || cp $< $@
 
 # dhall2stack needs stack-snippet
-project-dhall/ghc-$(GHC_VERSION)/text-templates/dhall2stack.dhall: \
+project-dhall/ghc-%/text-templates/dhall2stack.dhall: \
   updo/project-skeleton/ghc-x.y.z/text-templates/dhall2stack.dhall \
-  project-dhall/ghc-$(GHC_VERSION)/text-templates/stack-snippet.dhall \
+  project-dhall/ghc-%/text-templates/stack-snippet.dhall \
   project-dhall/pkg-groups.dhall
-	mkdir -p project-dhall/ghc-$(GHC_VERSION)/text-templates
+	mkdir -p project-dhall/ghc-$*/text-templates
 	[ -e $@ ] || cp $< $@
 
 # dhall2cabal needs cabal-snippet
-project-dhall/ghc-$(GHC_VERSION)/text-templates/dhall2cabal.dhall: \
+project-dhall/ghc-%/text-templates/dhall2cabal.dhall: \
   updo/project-skeleton/ghc-x.y.z/text-templates/dhall2cabal.dhall \
-  project-dhall/ghc-$(GHC_VERSION)/text-templates/cabal-snippet.dhall \
+  project-dhall/ghc-%/text-templates/cabal-snippet.dhall \
   project-dhall/pkg-groups.dhall
-	mkdir -p project-dhall/ghc-$(GHC_VERSION)/text-templates
+	mkdir -p project-dhall/ghc-$*/text-templates
 	[ -e $@ ] || cp $< $@
 	
 # dhall2config needs cabal-snippet
-project-dhall/ghc-$(GHC_VERSION)/text-templates/dhall2config.dhall: \
+project-dhall/ghc-%/text-templates/dhall2config.dhall: \
   updo/project-skeleton/ghc-x.y.z/text-templates/dhall2config.dhall \
-  project-dhall/ghc-$(GHC_VERSION)/text-templates/cabal-snippet.dhall \
+  project-dhall/ghc-%/text-templates/cabal-snippet.dhall \
   project-dhall/pkg-groups.dhall
-	mkdir -p project-dhall/ghc-$(GHC_VERSION)/text-templates
+	mkdir -p project-dhall/ghc-$*/text-templates
 	[ -e $@ ] || cp $< $@
