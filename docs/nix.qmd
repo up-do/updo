@@ -48,7 +48,6 @@ $ SHA256MAP_VIA_PYTHON=true \
 updo/project-nix/sha256map.py <stack.yaml >ghc-x.y.z.sha256map.nix
 mkdir -p project-nix/ghc-x.y.z && cp ghc-x.y.z.sha256map.nix project-nix/ghc-x.y.z/sha256map.nix
 rm ghc-x.y.z.sha256map.nix
-
 ```
 
 You can [read more about Updo Nix](project-nix#readme) and its use with

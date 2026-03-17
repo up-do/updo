@@ -1,0 +1,23 @@
+---
+title: "Tracing"
+filters:
+  - include-code-files
+format:
+  html:
+    highlight-style: ayu
+---
+
+If something is not working as expected, you can use `make --trace` or `remake
+--trace` to trace what make is doing at each step.
+
+::: {.callout-note .column-screen-inset collapse="true"}
+### Adding `--trace` to `make`
+```{.diff include="tracing-diff-make.txt" code-line-numbers="true"}
+```
+:::
+
+::: {.callout-note .column-screen-inset collapse="true"}
+### Comparing `make` with `remake`
+```{.diff include="tracing-diff-make-remake.txt" code-line-numbers="true"}
+```
+:::
