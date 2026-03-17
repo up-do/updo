@@ -6,7 +6,7 @@ config-upgrade: \
   $(UPDO_TMP)/ghc-$(GHC_UPGRADE)/forks-internal.dhall
 
 ghc-$(GHC_UPGRADE).dhall2cabal.project: \
-  project-dhall/ghc-$(GHC_UPGRADE)/text-templates/dhall2cabal.dhall \
+  $(UPDO_TMP)/ghc-$(GHC_UPGRADE)/text-templates/dhall2cabal.dhall \
   $(UPDO_TMP)/pkgs-upgrade-done.dhall \
   config-upgrade \
   updo/text-templates/cabal/*.dhall
