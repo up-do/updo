@@ -16,6 +16,7 @@ else
 fi
 endef
 
+project-dhall/ghc-%/constraints.dhall: ;
 $(UPDO_TMP)/ghc-%/constraints.dhall: project-dhall/ghc-%/constraints.dhall; $(COPY_CONSTRAINTS)
 
 define COPY_SOURCE_PKGS =
