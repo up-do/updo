@@ -1,37 +1,42 @@
-SHELL := bash
-.ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
-.DELETE_ON_ERROR:
-MAKEFLAGS += --warn-undefined-variables
-MAKEFLAGS += --no-builtin-rules
-
 UPDO_TMP ?= .updo
 
 define COPY_CONSTRAINTS =
-mkdir -p $(dir $(UPDO_TMP)/ghc-$*)
-if [ -e $< ]; then
-  cp $< $@
-else
-  cp ./updo/empty/constraints.dhall $@
-fi
+mkdir -p $(dir $(UPDO_TMP)/ghc-$*) && cp $$CONSTRAINT_FILE $@
 endef
-
-project-dhall/ghc-%/constraints.dhall: ;
-$(UPDO_TMP)/ghc-%/constraints.dhall: project-dhall/ghc-%/constraints.dhall; $(COPY_CONSTRAINTS)
 
 define COPY_SOURCE_PKGS =
-mkdir -p $(dir $(UPDO_TMP)/ghc-$*)
-if [ -e $< ]; then
-  cp $< $@
-else
-  cp ./updo/empty/source-pkgs.dhall $@
-fi
+mkdir -p $(dir $(UPDO_TMP)/ghc-$*) && cp $$SOURCE_PKGS_FILE $@
 endef
 
-$(UPDO_TMP)/ghc-%/deps-external.dhall: project-dhall/ghc-%/deps-external.dhall; $(COPY_SOURCE_PKGS)
-$(UPDO_TMP)/ghc-%/deps-internal.dhall: project-dhall/ghc-%/deps-internal.dhall; $(COPY_SOURCE_PKGS)
-$(UPDO_TMP)/ghc-%/forks-external.dhall: project-dhall/ghc-%/forks-external.dhall; $(COPY_SOURCE_PKGS)
-$(UPDO_TMP)/ghc-%/forks-internal.dhall: project-dhall/ghc-%/forks-internal.dhall; $(COPY_SOURCE_PKGS)
+$(UPDO_TMP)/ghc-%/constraints.dhall:
+	[ -e project-dhall/ghc-$*/constraints.dhall ] \
+		&& export CONSTRAINT_FILE=project-dhall/ghc-$*/constraints.dhall \
+		|| export CONSTRAINT_FILE=./updo/empty/constraints.dhall
+	$(COPY_CONSTRAINTS)
+
+$(UPDO_TMP)/ghc-%/deps-external.dhall:
+	[ -e project-dhall/ghc-$*/deps-external.dhall ] \
+		&& export SOURCE_PKGS_FILE=project-dhall/ghc-$*/deps-external.dhall \
+		|| export SOURCE_PKGS_FILE=./updo/empty/source-pkgs.dhall
+	$(COPY_SOURCE_PKGS)
+
+$(UPDO_TMP)/ghc-%/deps-internal.dhall:
+	[ -e project-dhall/ghc-$*/deps-internal.dhall ] \
+		&& export SOURCE_PKGS_FILE=project-dhall/ghc-$*/deps-internal.dhall \
+		|| export SOURCE_PKGS_FILE=./updo/empty/source-pkgs.dhall
+	$(COPY_SOURCE_PKGS)
+
+$(UPDO_TMP)/ghc-%/forks-external.dhall:
+	[ -e project-dhall/ghc-$*/forks-internal.dhall ] \
+		&& export SOURCE_PKGS_FILE=project-dhall/ghc-$*/forks-internal.dhall \
+		|| export SOURCE_PKGS_FILE=./updo/empty/source-pkgs.dhall
+	$(COPY_SOURCE_PKGS)
+
+$(UPDO_TMP)/ghc-%/forks-internal.dhall:
+	[ -e project-dhall/ghc-$*/forks-internal.dhall ] \
+		&& export SOURCE_PKGS_FILE=project-dhall/ghc-$*/forks-internal.dhall \
+		|| export SOURCE_PKGS_FILE=./updo/empty/source-pkgs.dhall
+	$(COPY_SOURCE_PKGS)
 
 .PHONY: pkgs-sorted
 pkgs-sorted: $(UPDO_TMP)/pkgs-sorted.dhall
