@@ -1,20 +1,36 @@
+SHELL := bash
+.ONESHELL:
+.SHELLFLAGS := -eu -o pipefail -c
+.DELETE_ON_ERROR:
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
+
 UPDO_TMP ?= .updo
 
-$(UPDO_TMP)/ghc-%/constraints.dhall: project-dhall/ghc-%/constraints.dhall
-	mkdir -p $(UPDO_TMP)/ghc-$*
-	if [ -e ./project-dhall/ghc-$*/constraints.dhall ]; then
-		cp ./project-dhall/ghc-$*/constraints.dhall $@
-	else
-		cp ./updo/empty/constraints.dhall $@
-	fi
+define COPY_CONSTRAINTS =
+mkdir -p $(dir $(UPDO_TMP)/ghc-$*)
+if [ -e $< ]; then
+	cp $< $@
+else
+	cp ./updo/empty/constraints.dhall $@
+fi
+endef
+	
+$(UPDO_TMP)/ghc-%/constraints.dhall: project-dhall/ghc-%/constraints.dhall; $(COPY_CONSTRAINTS)
 
-$(UPDO_TMP)/ghc-%.dhall: project-dhall/ghc-%.dhall
-	mkdir -p $(dir $(UPDO_TMP)/ghc-$*)
-	if [ -e ./project-dhall/ghc-$*.dhall ]; then
-		cp ./project-dhall/ghc-$*.dhall $@
-	else
-		cp ./updo/empty/ghc-$*.dhall $@
-	fi
+define COPY_SOURCE_PKGS =
+mkdir -p $(dir $(UPDO_TMP)/ghc-$*)
+if [ -e $< ]; then
+	cp $< $@
+else
+	cp ./updo/empty/source-pkgs.dhall $@
+fi
+endef
+	
+$(UPDO_TMP)/ghc-%/deps-external.dhall: project-dhall/ghc-%/deps-external.dhall; $(COPY_SOURCE_PKGS)
+$(UPDO_TMP)/ghc-%/deps-internal.dhall: project-dhall/ghc-%/deps-internal.dhall; $(COPY_SOURCE_PKGS)
+$(UPDO_TMP)/ghc-%/forks-external.dhall: project-dhall/ghc-%/forks-external.dhall; $(COPY_SOURCE_PKGS)
+$(UPDO_TMP)/ghc-%/forks-internal.dhall: project-dhall/ghc-%/forks-internal.dhall; $(COPY_SOURCE_PKGS)
 
 .PHONY: pkgs-sorted
 pkgs-sorted: $(UPDO_TMP)/pkgs-sorted.dhall
