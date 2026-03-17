@@ -1,0 +1,79 @@
+--- make-tracing.txt	2026-03-17 07:12:23.905778285 -0400
++++ remake-tracing.txt	2026-03-17 07:13:09.350955592 -0400
+@@ -1,24 +1,73 @@
+-$ make --trace -f project-files.mk ghc-9.4.8.dhall2cabal.project
++$ remake --trace -f project-files.mk ghc-9.4.8.dhall2cabal.project
++Reading makefiles...
++Updating makefiles...
+ Referencing Updo at https://github.com/cabalism/updo/commit/191a7fe6f1605dccbe5c3c473e4c844c3f1b22aa
+ rm -rf updo
+ curl -sSL https://github.com/cabalism/updo/archive/191a7fe6f1605dccbe5c3c473e4c844c3f1b22aa.tar.gz | tar -xz
+ mv updo-* updo
+ chmod +x $(grep -RIl '^#!' updo)
++Re-executing[1]: remake --trace -f project-files.mk ghc-9.4.8.dhall2cabal.project
++Reading makefiles...
++Updating makefiles...
++Updating goal targets...
++   File 'project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall' does not exist.
++       Prerequisite 'updo/project-skeleton/pkgs/all-in-one.dhall' is newer than target 'project-dhall/pkgs/all-in-one.dhall'.
++      Must remake target 'project-dhall/pkgs/all-in-one.dhall'.
+ updo/project-skeleton/Makefile:3: update target 'project-dhall/pkgs/all-in-one.dhall' due to: updo/project-skeleton/pkgs/all-in-one.dhall
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ mkdir -p project-dhall/pkgs
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ [ -e project-dhall/pkgs/all-in-one.dhall ] || cp updo/project-skeleton/pkgs/all-in-one.dhall project-dhall/pkgs/all-in-one.dhall
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++      Successfully remade target file 'project-dhall/pkgs/all-in-one.dhall'.
++     Prerequisite 'updo/project-skeleton/pkg-groups.dhall' is newer than target 'project-dhall/pkg-groups.dhall'.
++    Must remake target 'project-dhall/pkg-groups.dhall'.
+ updo/project-skeleton/Makefile:9: update target 'project-dhall/pkg-groups.dhall' due to: updo/project-skeleton/pkg-groups.dhall
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ mkdir -p project-dhall
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ [ -e project-dhall/pkg-groups.dhall ] || cp updo/project-skeleton/pkg-groups.dhall project-dhall/pkg-groups.dhall
+-updo/project-skeleton/Makefile:18: update target 'project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall' due to: target does not exist
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++    Successfully remade target file 'project-dhall/pkg-groups.dhall'.
++    File 'project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall' does not exist.
++   Must remake target 'project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall'.
++updo/project-skeleton/Makefile:18: update target 'project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall' due to: updo/project-skeleton/ghc-x.y.z/text-templates/cabal-snippet.dhall
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ mkdir -p project-dhall/ghc-9.4.8/text-templates
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ [ -e project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall ] || cp updo/project-skeleton/ghc-x.y.z/text-templates/cabal-snippet.dhall project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall
+-updo/project-skeleton/Makefile:39: update target 'project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall' due to: target does not exist
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++   Successfully remade target file 'project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall'.
++  Must remake target 'project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall'.
++updo/project-skeleton/Makefile:39: update target 'project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall' due to: updo/project-skeleton/ghc-x.y.z/text-templates/dhall2cabal.dhall project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall project-dhall/pkg-groups.dhall
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ mkdir -p project-dhall/ghc-9.4.8/text-templates
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ [ -e project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall ] || cp updo/project-skeleton/ghc-x.y.z/text-templates/dhall2cabal.dhall project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++  Successfully remade target file 'project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall'.
++     Prerequisite 'updo/project-skeleton/pkgs-upgrade-todo.dhall' is newer than target 'project-dhall/pkgs-upgrade-todo.dhall'.
++    Must remake target 'project-dhall/pkgs-upgrade-todo.dhall'.
+ updo/project-skeleton/Makefile:14: update target 'project-dhall/pkgs-upgrade-todo.dhall' due to: updo/project-skeleton/pkgs-upgrade-todo.dhall
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ [ -e project-dhall/pkgs-upgrade-todo.dhall ] || cp updo/project-skeleton/pkgs-upgrade-todo.dhall project-dhall/pkgs-upgrade-todo.dhall
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++    Successfully remade target file 'project-dhall/pkgs-upgrade-todo.dhall'.
++   File 'config-upgrade' does not exist.
++  Must remake target 'config-upgrade'.
++  Successfully remade target file 'config-upgrade'.
++ Prerequisite 'project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall' is newer than target 'ghc-9.4.8.dhall2cabal.project'.
++ Prerequisite 'config-upgrade' of target 'ghc-9.4.8.dhall2cabal.project' does not exist.
++Must remake target 'ghc-9.4.8.dhall2cabal.project'.
+ updo/project-upgrade/dhall2cabal.mk:13: update target 'ghc-9.4.8.dhall2cabal.project' due to: project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall config-upgrade
++##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ echo './project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall ./.updo/pkgs-upgrade-done.dhall "lts-21.25"' \
+ | dhall text | sed -E "s/@(rev|sha256):.*$//" > ghc-9.4.8.dhall2cabal.project
++##<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
++Successfully remade target file 'ghc-9.4.8.dhall2cabal.project'.
++Removing intermediate files...
+ rm project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall

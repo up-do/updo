@@ -1,0 +1,18 @@
+$ make -f project-files.mk ghc-9.4.8.dhall2cabal.project
+Referencing Updo at https://github.com/cabalism/updo/commit/191a7fe6f1605dccbe5c3c473e4c844c3f1b22aa
+rm -rf updo
+curl -sSL https://github.com/cabalism/updo/archive/191a7fe6f1605dccbe5c3c473e4c844c3f1b22aa.tar.gz | tar -xz
+mv updo-* updo
+chmod +x $(grep -RIl '^#!' updo)
+mkdir -p project-dhall/pkgs
+[ -e project-dhall/pkgs/all-in-one.dhall ] || cp updo/project-skeleton/pkgs/all-in-one.dhall project-dhall/pkgs/all-in-one.dhall
+mkdir -p project-dhall
+[ -e project-dhall/pkg-groups.dhall ] || cp updo/project-skeleton/pkg-groups.dhall project-dhall/pkg-groups.dhall
+mkdir -p project-dhall/ghc-9.4.8/text-templates
+[ -e project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall ] || cp updo/project-skeleton/ghc-x.y.z/text-templates/cabal-snippet.dhall project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall
+mkdir -p project-dhall/ghc-9.4.8/text-templates
+[ -e project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall ] || cp updo/project-skeleton/ghc-x.y.z/text-templates/dhall2cabal.dhall project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall
+[ -e project-dhall/pkgs-upgrade-todo.dhall ] || cp updo/project-skeleton/pkgs-upgrade-todo.dhall project-dhall/pkgs-upgrade-todo.dhall
+echo './project-dhall/ghc-9.4.8/text-templates/dhall2cabal.dhall ./.updo/pkgs-upgrade-done.dhall "lts-21.25"' \
+| dhall text | sed -E "s/@(rev|sha256):.*$//" > ghc-9.4.8.dhall2cabal.project
+rm project-dhall/ghc-9.4.8/text-templates/cabal-snippet.dhall
