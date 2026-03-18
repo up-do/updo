@@ -10,7 +10,7 @@ define LET_FN_SNIPPET =
 endef
 
 ghc-$(GHC_VERSION).dhall2stack.yaml: \
-  updo/ghc-x.y.z/text-templates/dhall2stack.dhall \
+  updo/project-skeleton/ghc-x.y.z/text-templates/dhall2stack.dhall \
   $(UPDO_TMP)/pkgs-sorted.dhall \
   config-version \
   updo/text-templates/stack/*.dhall
