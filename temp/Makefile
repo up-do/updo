@@ -1,11 +1,11 @@
 UPDO_TMP ?= .updo
 
 define COPY_CONSTRAINTS =
-mkdir -p $(dir $(UPDO_TMP)/ghc-$*) && cp $$CONSTRAINT_FILE $@
+mkdir -p $(UPDO_TMP)/ghc-$* && cp $$CONSTRAINT_FILE $@
 endef
 
 define COPY_SOURCE_PKGS =
-mkdir -p $(dir $(UPDO_TMP)/ghc-$*) && cp $$SOURCE_PKGS_FILE $@
+mkdir -p $(UPDO_TMP)/ghc-$* && cp $$SOURCE_PKGS_FILE $@
 endef
 
 $(UPDO_TMP)/ghc-%/constraints.dhall:
